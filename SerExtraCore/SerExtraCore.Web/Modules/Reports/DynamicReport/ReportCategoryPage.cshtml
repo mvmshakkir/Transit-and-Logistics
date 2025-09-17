@@ -1,0 +1,38 @@
+﻿@model SerExtraCore.Web.Modules.ReportsInCategory
+<div id="ReportPage" class="s-DataGrid">
+    <div class="grid-title">
+        <div class="title-text">Reports</div>
+    </div>
+    <div class="grid-toolbar s-Toolbar clearfix">
+        <div class="s-QuickSearchBar"><input /></div>
+    </div>
+    <div class="report-box">
+        <div class="report-list center">
+            <ul>
+                <li class="category expanded">
+                    <div class="line">
+                        <span class="toggle"></span><span class="caption">
+                            @Model.Category
+                        </span>
+                    </div>
+                    <ul class="has-reports" style="display: block;">
+                        @foreach (var item in Model.reportDesignsRows)
+                        {
+                        @*<li class="report-item odd"><a href="Reports/DynamicReport?reportid=@item.Id" class="report-link" data-key="">@item.Name</a></li>*@
+                        <li class="report-item odd"><a href="DynamicReport?reportid=@item.Id"  data-key="">@item.Name</a></li>
+                        }
+                    </ul>
+                </li>
+
+            </ul>
+           
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new SerExtraCore.Common.ReportPage($('#ReportPage'), false);
+        Q.initFullHeightGridPage($('#ReportPage'));
+    });
+</script>

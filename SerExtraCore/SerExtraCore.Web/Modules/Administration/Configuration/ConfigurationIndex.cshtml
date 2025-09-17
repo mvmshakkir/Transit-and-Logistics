@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = Serenity.LocalText.Get("Db.Administration.Configuration.EntityPlural");
+}
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        //new SerExtraCore.Administration.ConfigurationGrid($('#GridDiv'), {}).init();
+
+        //Q.initFullHeightGridPage($('#GridDiv'));
+
+        var dialog = new SerExtraCore.Administration.ConfigurationDialog();
+        dialog.loadByIdAndOpenDialog(1);
+    });
+</script>

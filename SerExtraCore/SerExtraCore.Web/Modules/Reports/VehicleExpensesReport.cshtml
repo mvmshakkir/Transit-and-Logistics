@@ -1,0 +1,118 @@
+﻿@model SerExtraCore.Transactions.Pages.VehicleExpensesReport.AccountStatementViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+<section class="invoice">
+    @*<div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header" style="text-align:center">
+                    Account Statement<br />
+                    From:@Model.aboutreport.FromDate.ToShortDateString() To:@Model.aboutreport.ToDate.ToShortDateString()
+                    <small class="pull-right">Date: @DateTime.Now.ToShortDateString()</small>
+                </h2>
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-sm-8">
+            <h2 class="page-header" style="text-align:center">Vehicle Expenses</h2>
+            <h2 class="page-header" style="text-align:center">
+                @if (Model.aboutreport.Ledger != null)
+                {
+                    <p> Account No:@Model.aboutreport.Ledger </p>
+                }
+                @if (Model.aboutreport.Vehicle != null)
+                {
+                    <p> Vehicle:@Model.aboutreport.Vehicle </p>
+                }
+            </h2>
+        </div>
+
+        <div class="col-sm-4">Statement Period:@Model.aboutreport.FromDate.ToShortDateString() To: @Model.aboutreport.ToDate.ToShortDateString()</div>
+    </div>
+    <!-- info row -->
+    <!-- /.row -->
+    <!-- Table row -->
+    <div>
+
+        <table border="1" style="border-width:thin;border-color:gainsboro">
+            <thead>
+                <tr>
+                    <th width="80px" style="text-align:center"><strong style="font-size:10px;font-style:normal">TrxDate</strong></th>
+                    <th width="50px" style="text-align:center"><strong style="font-size:10px;font-style:normal">VNo</strong></th>
+                    <th width="100px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Debit Ledger</strong></th>
+                    <th width="100px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Credit Ledger</strong></td>
+                    <th width="100px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Vehicle</strong></td>
+                    <th width="200px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Description</strong></th>
+                    <th width="100px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Amount</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.Details)
+                {
+                <tr>
+                    <td><strong style="font-size:8px;font-style:normal">@d.TrxDate.ToShortDateString()</strong></td>
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">@d.VNo</strong></td>
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">@(d.DebitAccount)</strong></td>
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">@(d.CreditAccount)</strong></td>
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">@(d.Party)</strong></td>
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">@(d.Remarks)</strong></td>
+                    <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:center">@(d.DebitAmount)</strong></td>
+                </tr>
+                }
+            <tr>
+                <td><strong style="font-size:8px;font-style:normal">Total:</strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:center">@Model.Details.Sum(i=>i.DebitAmount)</strong></td>
+             
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+    @*<div class="row">
+            <div class="col-xs-6">
+
+            </div>
+             /.col
+            <div class="col-xs-6">
+                <p class="lead">Amount Due @(Model.Order.OrderDate.Value.AddDays(10).ToShortDateString())</p>
+
+                @{
+                    var subTotal = Model.Details.Sum(x => x.LineTotal ?? 0);
+                }
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th style="width:50%">Subtotal:</th>
+                            <td>$@subTotal.ToString("#,##0.00")</td>
+                        </tr>
+                        <tr>
+                            <th>Tax (9.3%)</th>
+                            <td>$@((subTotal * 0.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping:</th>
+                            <td>$5.80</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <td>$@((subTotal * 1.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>*@
+</section>

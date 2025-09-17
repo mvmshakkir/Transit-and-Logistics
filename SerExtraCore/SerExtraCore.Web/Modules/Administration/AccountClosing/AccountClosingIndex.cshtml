@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = Serenity.LocalText.Get("Db.Administration.Configuration.EntityPlural");
+}
+<div>
+    <h1>Close Account</h1>
+    <label for="birthday">Closing Date:</label>
+    <input type="date" id="closedate" name="birthday">
+    <button class="btn btn-info" onclick="newSrc()">Preview</button>
+</div>
+<div style="margin:5px">
+    <iframe id="MyFrame" src="" width="100%" height="500">
+    </iframe>
+</div>
+<div style="margin:15px">
+    <button id="btnConfirm" type="button" class="btn btn-danger" style="width:100%">Confirm</button>
+</div>
+<script>
+    SerExtraCore.Administration.AccountClosing.initializePage();
+    function newSrc() {
+        var date = document.getElementById("closedate").value;
+        var newSrc = "/Report/Render?key=SerExtraCore.Transactions.Pages.ProfitandLossReport&opt={%22StartDate%22:%22" + date+"%22}&ext=pdf";
+        document.getElementById("MyFrame").src = newSrc;
+    }
+</script>

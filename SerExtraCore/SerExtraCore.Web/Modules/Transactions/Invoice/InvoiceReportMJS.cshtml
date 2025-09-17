@@ -1,0 +1,600 @@
+﻿@model SerExtraCore.Transactions.OrderDetailReportData
+
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+ <style>
+     h3 {
+         background-color: black;
+     }
+     p.test {
+         word-wrap: break-word;
+         *white-space: pre-wrap;
+     }
+     * {
+         font-family: Helvetica, Arial, sans-serif;
+     }
+     td {
+      padding-top:2px;
+      padding-bottom:0px;
+      padding-right:10px;   
+    }
+
+    td:first-child {
+      padding-left:10px;
+      padding-right:0;
+    }
+ </style>
+<div>
+    <img style="float:right" src="~/images/LOGO.PNG" />
+</div>
+<br />
+<br />
+<br />
+<div>
+    <table style="width:100%">
+        <tr style="background-color: lightblue !important;height:20px">
+            <td style="text-align:center;height:20px !important">
+                <h3 ><b>TAX INVOICE</b></h3>
+            </td>
+        </tr>
+    </table>
+   
+</div>
+<br/>
+<div class="row">
+    <div class="col-xs-6">
+        <table style="border:1px solid thin;width:100%">
+            <tr style="border:1px solid black">
+                <td>
+                    MJS SHIPPING LLC
+                </td>
+
+            </tr>
+            <tr style="border:1px solid black">
+                <td>
+                    DUBAI,UAE
+                    <br />
+                    PH:+971 52 823 6074, +971 04 223 3667
+                    <br />
+                    Mail:info@mjsshipping.ae
+                </td>
+
+            </tr>
+            <tr style="border:1px solid black">
+                <td>
+                    Office VAT ID :@Model.configuration.TaxRegNo
+                </td>
+
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-6">
+        <table style="width:100%">
+            <tr style="border:1px solid black;background-color:lightblue !important">
+                <td colspan="3">
+                    <b>&nbsp; BILL TO</b>
+                </td>
+            </tr>
+            <tr style="border:1px solid black">
+                <td>
+                    Party Name 
+                </td>
+                <td>:</td>
+                <td>@Model.Customer.CustomerName</td>
+
+            </tr>
+            <tr style="border:1px solid black">
+                <td style="vertical-align:top">
+                    Address 
+                </td>
+                <td style="vertical-align:top">:</td>
+                <td>
+                    @*<p class="test">@Model.Customer.Address</p>*@
+                    <span> @Model.Customer.Address</span>
+                </td>
+            </tr>
+            <tr style="border:1px solid black">
+                <td style="vertical-align:top;">
+                    Region
+                </td>
+                <td>:</td>
+                <td>
+                  @Model.Customer.Place
+                </td>
+            </tr>
+            <tr style="border:1px solid black">
+                <td style="vertical-align:top">
+                    VAT ID(TRN) 
+                </td>
+                <td>:</td>
+                <td>
+                   @Model.Customer.TaxRegNo
+                </td>
+            </tr >
+            <tr style="border:1px solid black">
+                <td style="vertical-align:top">
+                    Invoice Ref 
+                </td>
+                <td>:</td>
+                <td>
+                   @Model.Invoice.InvoiceNo
+                </td>
+            </tr>
+            <tr style="border:1px solid black">
+                <td style="vertical-align:top">
+                    Invoice Date 
+                </td>
+                <td>:</td>
+                <td>
+                   @((Model.Invoice.InvoiceDate??DateTime.Now).ToLongDateString())
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+<div>
+    <table style="width:100%;border:1px solid black">
+        <tr style="background-color:lightblue !important;border-bottom:1px solid black;">
+            <td colspan="6" style="padding-top:5px;padding-bottom:5px">
+                Shipment Details For SEA FREIGHT IMPORT FCL
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+                Vessel/Voyage
+            </td>
+            <td>
+               : @Model.clearanceRow.Vessel
+            </td>
+            <td width="120px">
+                Job Ref
+            </td>
+            <td>
+                : @Model.Invoice.JobNo
+            </td>
+            <td width="120px">
+                No:Of Packages
+            </td>
+            <td>
+                : @Model.clearanceRow.NoOfPackages
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+                Arrival Date
+
+            </td>
+            <td>
+                @if (Model.clearanceRow.Eta != null)
+                { 
+                
+                  <f>:</f> @((Model.clearanceRow.Eta ?? DateTime.Now).ToLongDateString());
+                }
+
+                
+            </td>
+            <td>
+                Customer Ref
+            </td>
+            <td>
+                : @Model.Invoice.ClientJobNo
+            </td>
+            <td>
+                Volume/CBM
+            </td>
+            <td>
+                :
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+                Port of Loading
+
+            </td>
+           
+            <td>
+               : @Model.clearanceRow.PortLoadingPortName
+            </td>
+            <td>
+                Package Type
+            </td>
+            <td>
+                : @Model.clearanceRow.PackageType
+            </td>
+            <td>
+                Terms of Shipment
+            </td>
+            <td>
+                :
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+                Port of Discharge
+            </td>
+            <td>
+               : @Model.clearanceRow.PortDischargePortName
+            </td>
+            <td>
+                HBL
+
+            </td>
+            <td>
+                : @Model.clearanceRow.Hblno
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+               
+            </td>
+            <td>
+               
+            </td>
+            <td>
+                MBL
+            </td>
+            <td>
+                : @Model.clearanceRow.Mblno
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+                Place of Delivery
+
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+                Weight(KGS)
+            </td>
+            <td>
+                : @Model.clearanceRow.Weight
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+                Shipper
+
+            </td>
+            <td>
+               :
+            </td>
+            <td>
+                Chargeable Weight
+            </td>
+            <td>
+                : @Model.clearanceRow.ChargeableWeight
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td width="110px">
+               
+            </td>
+            <td>
+               
+            </td>
+            <td>
+                Customs Doc Ref
+            </td>
+            <td>
+                :
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+       
+        <tr>
+            <td width="110px">
+                Container No.
+            </td>
+            <td colspan="5">
+                : @Model.clearanceRow.ContainerNo
+            </td>
+            
+        </tr>
+    </table>
+</div>
+<br />
+<div class="details">
+    <style>
+
+            .details th 
+        {
+            border:1px solid black
+        }
+        .details td {
+            border-right: 1px solid black;
+            border-left: 1px solid black
+        }
+
+    </style>
+    <table width="100%" style="font-size:11px">
+
+        <thead>
+            <tr style="background-color:lightblue !important">
+                <th style="text-align: center">
+                    Description of Service
+                </th>
+                <th>
+                    Qty/UOM
+                </th>
+                <th  style="text-align: right;padding-right:5px">
+                    Rate
+                </th>
+                <th style="text-align:center">
+                    Curr./
+                    Ex.Rate
+                </th>
+                <th  style="text-align:center">
+                    Invoice
+                    Amount
+                    (FC)
+                </th>
+                <th  style="text-align:center">
+                    Invoice
+                    Amount
+                    (AED)
+                </th>
+                <th style="text-align:center">
+                    VAT
+                    Group
+
+                </th>
+                <th style="text-align:center">
+                    VAT RATE
+                </th>
+                <th style="text-align:center">
+                    VAT Amount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model.Details)
+            {
+                <tr>
+                    <td>
+                        @row.Description
+                    </td>
+                    <td style="text-align:center">
+                        @((row.Qty??0).ToString("N2"))
+                    </td>
+                    <td style="text-align:right;padding-right:5px;padding-left:5px">
+                        @((row.Amount??0).ToString("N2"))
+                    </td>
+
+                    <td style="text-align:center">
+                        @row.CurrencyCurrencyCode/@row.ExchangeRate
+                    </td>
+                    <td style="text-align:right">
+                        @row.TotalAmount
+                    </td>
+                    <td style="text-align:right">
+                        @((row.TotalAmountInLocalCurrency??0).ToString("N2"))
+                    </td>
+                    <td style="text-align:center">
+                         @((row.TaxPer??0).ToString("N2"))%
+                    </td>
+                    <td style="text-align:center">
+                        @((row.TaxPer??0).ToString("N2"))
+                    </td>
+                    <td style="text-align:right">
+                        @((row.TaxAmount??0).ToString("N2"))
+                    </td>
+                </tr>
+            }
+            <tr style="border-bottom:1px solid black;height:20px">
+                <td>
+                </td>
+                <td>
+
+                <td style="text-align:right">
+                </td>
+
+                <td>
+                </td>
+                <td style="text-align:right">
+                </td>
+                <td style="text-align:right">
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td style="text-align:right">
+                </td>
+            </tr>
+            <tr style="border-bottom:1px solid black;height:20px">
+                <td>
+                </td>
+                <td>
+
+                <td style="text-align:right">
+                </td>
+
+                <td>
+                </td>
+                <td style="text-align:right">
+                </td>
+                <td style="text-align:right">
+                    @((Model.Details.Sum(i => i.TotalAmountInLocalCurrency)??0).ToString("N2"))
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td style="text-align:right">
+                    @((Model.Details.Sum(i => i.TaxAmount)??0).ToString("N2"))
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<br />
+@*<div>
+    <table>
+        <thead style="background-color:lightblue !important">
+            <tr style="border:1px solid black">
+                <th rowspan="2" style="width:120px;text-align:center">
+                    Tax Summary
+                </th>
+                <th rowspan="2" style="border:1px solid black;width:120px;text-align:center">
+                    Taxable Amount
+                </th>
+                <th colspan="2" style="text-align:center">
+                    Vat
+                </th>
+            </tr>
+            <tr style="border:1px solid black">
+
+                <th style="border:1px solid black;width:60px;text-align:center">
+                    %
+                </th>
+                <th style="width:60px;text-align:center">
+                    Amount
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var mi in Model.Details.GroupBy(i => i.TaxPer??0))
+            {
+            <tr style="border:1px solid black">
+                <td style="border-right:1px solid black">
+                    VAT @((mi.Key).ToString("N2")) %
+                </td>
+                <td style="        text-align: right;border-right: 1px solid black">
+                    @((mi.Sum(I => I.TaxableAmount)??0).ToString("N2"))
+                </td>
+                <td style="        text-align: center; border-right: 1px solid black">
+                    @mi.Key.ToString("N2")
+                </td>
+                <td style="        text-align: right;
+        border-right: 1px solid black
+">
+                    @((mi.Sum(I => I.TaxAmount)??0).ToString("N2"))
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>*@
+<div>
+    <table>
+        <tr>
+            <td width="580px"></td>
+            <td width="100px">Total Invoice :</td>
+            <td style="text-align:right">@((Model.Invoice.TotalAmount??0).ToString("N2"))</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>Rounded :</td>
+            <td style="text-align:right">0.000</td>
+        </tr>
+        <tr>
+            <td>In Word : @Model.amountinwords AED</td>
+            <td>Net Total :</td>
+            <td style="text-align:right">@((Model.Invoice.TotalAmount??0).ToString("N2"))</td>
+        </tr>
+    </table>
+</div>
+<br />
+<div>
+    <div class="row">
+        <div class="col-xs-5">
+            <table width="100%" style="border:1px solid black">
+                <tr style="background-color:lightblue !important">
+                    <td>
+                        Remarks
+                    </td>
+                   
+                </tr>
+                <tr style="height:73px">
+                    <td>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-7">
+            <table width="100%" style="border:1px solid black">
+                <tr style="background-color:lightblue !important">
+                    <td colspan="4">
+                        Bank Details
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        A/C Name
+                    </td>
+                    <td colspan="3">
+                      :  @Model.configuration.AccountName
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        A/C Number
+                    </td>
+                    <td colspan="3">
+                       : @Model.configuration.AccountNumber
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Bank
+                    </td>
+                    <td colspan="3">
+                        :  @Model.configuration.BankName
+                    </td>
+                  
+                </tr>
+                <tr>
+                    <td style="width:80px">
+                        IBAN
+                    </td>
+                    <td width="80px">
+                        : @Model.configuration.IbanNo
+                       
+                    </td>
+                    <td style="width:80px">
+                        Swift Code
+                    </td>
+                    <td style="width:10px">
+                        : @Model.configuration.SwiftCode
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <br />
+    1.If any discrepancy is noticed in the invoice, kindly inform us in writing within 2 days, otherwise the above amount will<br />
+    &nbsp; be considered as correct.
+    <br />
+    2.Please mention our invoice numbers(s) on your remittance instructions.
+    <br />
+    3.All payment should be made with cross cheque favouring MJS SHIPPING LLC
+
+</div>

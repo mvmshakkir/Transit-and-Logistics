@@ -1,0 +1,106 @@
+﻿@model SerExtraCore.Transactions.OrderDetailReportData
+
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+
+
+<style>
+    .heddiv {
+    }
+
+    .row {
+        display: flex; /* equal height of the children */
+    }
+
+    .col-container {
+        display: table;
+        width: 100%;
+    }
+
+    .col {
+        display: table-cell;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        border-radius: 20px;
+        padding: 10px;
+    }
+
+    tr, td, th {
+        text-align: center;
+    }
+
+    table {
+        border-spacing: 0;
+        width: 100%;
+        display: table;
+        border: none
+    }
+
+    .thstyle {
+        border-right-style: solid;
+        border-right-color: lightgray;
+        border-right-width: 1px
+    }
+
+    div.c {
+        text-align: right;
+    }
+
+    div.b {
+        text-align: left;
+    }
+    p.test {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+    x.test {
+        word-wrap: break-word;
+        white-space: pre-line;
+    }
+</style>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<body>
+    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT SIZE=5><B>INVOICE</B></FONT></P>
+
+</body>
+
+
+<div class="col-container">
+    
+    <div class="col" style="width:65%">
+        <b> @Model.Customer.CustomerName</b>
+        <p class="test">@Model.Customer.Address</p>
+       
+    </div>
+    <div class="col" style="width:2px;border-style: none;">
+
+    </div>
+    <div class="col" style="width:32%">
+        Invoice No &nbsp; &nbsp;: @Model.Invoice.InvoiceNo
+        <br />
+        Invoice Date&nbsp;: @((Model.Invoice.InvoiceDate ?? DateTime.Today).ToShortDateString())
+        <br />
+        Client Job No: @Model.Invoice.ClientJobNo
+    </div>
+</div>
+<br />
+<script>
+    $(document).ready(function () {
+
+        $('#headerdiv').css({
+            position: 'absolute',
+            top: 300,
+           
+        });
+
+    });
+</script>
+

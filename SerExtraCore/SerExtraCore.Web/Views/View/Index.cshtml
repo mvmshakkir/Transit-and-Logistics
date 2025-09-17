@@ -1,0 +1,39 @@
+﻿
+@{
+  Layout=null;
+}
+@using Stimulsoft.Report.Mvc;
+@using Stimulsoft.Report.Web;
+@using Stimulsoft.System.Web.UI.WebControls;
+
+@{
+    ViewBag.Title = "Calibre";
+}
+
+@Html.StiNetCoreViewer("StiMvcViewer1", new StiNetCoreViewerOptions()
+{
+    Actions =
+    {
+        
+        GetReport = "GetReport",
+        ViewerEvent = "ViewerEvent",
+        DesignReport = "Design"
+    },
+    Appearance =
+    {
+        
+        BackgroundColor = System.Drawing.Color.FromArgb(0xe8, 0xe8, 0xe8),
+        ScrollbarsMode = true,
+        
+    },
+    Toolbar =
+    {
+       
+        ShowAboutButton=false,
+        ShowResourcesButton=false,
+        DisplayMode = StiToolbarDisplayMode.Separated,
+        ShowDesignButton = true
+    },
+    Width = Unit.Percentage(100),
+    Height = Unit.Percentage(100)
+})

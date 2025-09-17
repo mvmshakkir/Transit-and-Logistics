@@ -1,0 +1,142 @@
+﻿@model SerExtraCore.Web.Modules.ReportRequest
+@{
+    ViewData["Title"] = "Report";
+}
+<style>
+
+
+
+    .btnk {
+        background-color: DodgerBlue;
+        border: none;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        /* Darker background on mouse-over */
+        .btn:hover {
+            background-color: RoyalBlue;
+        }
+    .select2-container {
+        width: 95% !important;
+    }
+    .fielddiv {
+        height: 35px;
+    }
+    .buttt {
+        padding-bottom: 10px;
+    }
+    @@media only screen and (max-width: 759px) {
+        .fielddiv {
+            height: 50px;
+        }
+        .buttt {
+            padding-bottom: 50px;
+        }
+}
+</style>
+
+<section class="content" style="min-height: 789.438px;">
+    <style class="panel-hidden panel-hidden-SerExtraCore_Transactions_SalesDialog20">
+        .s-SalesDetailsGridEditor {
+            height: 300px;
+        }
+    </style>
+
+    <div class="s-TemplatedDialog s-SalesDialog s-Transactions-SalesDialog flex-layout s-Panel" id="SerExtraCore_Transactions_SalesDialog20"  style="width:100%">
+        
+        <div class="s-DialogContent"  style="width:100%">
+            <div class="s-Form">
+                <div class="grid-title">
+                    <div class="title-text">@Model.reportDesignsRow.Name</div>
+                </div>
+                <form2 id="SerExtraCore_Transactions_SalesDialog20_Form" action="" style="width:100%" novalidate="novalidate">
+                    <div class="fieldset"  style="width:100%">
+                        <div id="SerExtraCore_Transactions_SalesDialog20_PropertyGrid" class="s-PropertyGrid"  style="width:100%">
+                            <div class="categories"  style="width:100%">
+                                <div class="category first-category"  style="width:100%">
+                                    <div class="category-title"  style="width:100%">
+                                        <a class="category-anchor" name="SerExtraCore_Transactions_SalesDialog20_Category1">
+                                            Parameters
+                                        </a>
+                                    </div>
+
+
+
+                                    <div id="parameters" style="padding:5px;width:100%">
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 buttt" style="">
+                        <button class="btnk" id="LaunchDialogButton" style="float: right;margin-right:15px"><i class="fa fa-home"></i> Retrieve Report</button>
+                    </div>
+                    <div style="margin:10px">
+                        <iframe id="MyFrame" src="" width="100%" style="padding-top:5px" height="650">
+                        </iframe>
+                    </div>
+                </form2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    SerExtraCore.Reports.DynamicReport.initializePage(@Model.ReportId);
+    function myFunc(e) {
+       
+        var val = e.value;
+        var re = /^([0-9]+[\.]?[0-9]?[0-9]?[0-9]?|[0-9]+)$/g;
+        var re1 = /^([0-9]+[\.]?[0-9]?[0-9]?[0-9]?|[0-9]+)/g;
+        if (re.test(val)) {
+            //do something here
+
+        } else {
+            val = re1.exec(val);
+            if (val) {
+                
+                e.value = val[0];
+            } else {
+                e.value = "";
+            }
+        }
+    }
+    function myintFunc(e) {
+
+        var val = e.value;
+        var re = /^([0-9])$/g;
+        var re1 = /^([0-9]+|[0-9]+)/g;
+        if (re.test(val)) {
+            //do something here
+
+        } else {
+            val = re1.exec(val);
+            if (val) {
+
+                e.value = val[0];
+            } else {
+                e.value = "";
+            }
+        }
+    }
+    function setTwoNumberDecimal(e) {
+        var k = parseFloat(e.value).toFixed(3);
+        if (!isNaN(k)) {
+            e.value = k;
+        }
+        else {
+            e.value = "";
+        }
+    }
+</script>
+
+
+
+

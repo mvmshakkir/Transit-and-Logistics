@@ -1,0 +1,90 @@
+﻿@model SerExtraCore.Transactions.Pages.TaxSummaryReport.TaxSummaryViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+<section>
+    <style>
+        #details td,th{
+            border:1px solid black;
+            padding:5px;
+            font-size:11px;
+        }
+    </style>
+    <table style="width:100%">
+        <tr style="text-align:center">
+            <td>
+                <h4>TAX SUMMARY REPORT</h4>
+            </td>
+        </tr>
+        <tr style="text-align:center">
+            <td >
+                <p>From : @Model.FromDate.ToShortDateString() To : @Model.ToDate.ToShortDateString()</p>
+            </td>
+        </tr>
+    </table >
+    <table id="details" style="width:100%">
+        <tr>
+            <th style="width:70%;text-align:center">Description</th>
+            <th style="width:15%;text-align:center">Taxable Amount</th>
+            <th style="text-align:center">Vat</th>
+
+        </tr>
+        <tr>
+            <td style="font-size:18px">OutWard Supplies</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var item in Model.Details)
+        {
+            if (item.taxtype == "outward")
+            {
+                <tr>
+                    <td>@item.Descr</td>
+                    <td style="text-align:right">@item.Amount.ToString("N3")</td>
+                    <td style="text-align:right">@item.TaxAmount.ToString("N3")</td>
+                </tr>
+            }
+
+        }
+
+        <tr>
+            <td style="text-align:right"><b>Total</b></td>
+            <td style="text-align:right"><b>@Model.Details.Where(x => x.taxtype == "outward").Sum(x => x.Amount).ToString("N3")</b></td>
+            <td style="text-align:right"><b>@Model.Details.Where(x => x.taxtype == "outward").Sum(x => x.TaxAmount).ToString("N3")</b></td>
+        </tr>
+
+
+
+        <tr>
+            <td style="font-size:18px">InWard Supplies</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var item in Model.Details)
+        {
+            if (item.taxtype == "inward")
+            {
+                <tr>
+                    <td>@item.Descr</td>
+                    <td style="text-align:right">@item.Amount.ToString("N3")</td>
+                    <td style="text-align:right">@item.TaxAmount.ToString("N3")</td>
+                </tr>
+            }
+
+        }
+        <tr>
+            <td style="text-align:right"><b>Total</b></td>
+            <td style="text-align:right"><b>@Model.Details.Where(x => x.taxtype == "inward").Sum(x => x.Amount).ToString("N3")</b></td>
+            <td style="text-align:right"><b>@Model.Details.Where(x => x.taxtype == "inward").Sum(x => x.TaxAmount).ToString("N3")</b></td>
+        </tr>
+        <tr>
+            <td style="text-align:right"><b></b></td>
+            <td style="text-align:right"><b>@(Model.Details.Where(x => x.taxtype == "inward").Sum(x => x.Amount)- Model.Details.Where(x => x.taxtype == "outward").Sum(x => x.Amount))</b></td>
+            <td style="text-align:right"><b>@(Model.Details.Where(x => x.taxtype == "inward").Sum(x => x.TaxAmount)- Model.Details.Where(x => x.taxtype == "outward").Sum(x => x.TaxAmount))</b></td>
+        </tr>
+    </table>    
+</section>

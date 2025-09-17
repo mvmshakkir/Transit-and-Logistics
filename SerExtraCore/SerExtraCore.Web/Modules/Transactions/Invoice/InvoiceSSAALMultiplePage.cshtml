@@ -1,0 +1,842 @@
+﻿@model SerExtraCore.Transactions.OrderDetailReportData
+
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<style>
+    .heddiv {
+    }
+
+    .row {
+        display: flex; /* equal height of the children */
+    }
+
+    .col-container {
+        display: table;
+        width: 100%;
+    }
+
+
+    .col {
+        overflow: hidden;
+        display: table-cell;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        border-radius: 20px !important;
+        padding: 10px;
+    }
+
+    tr, td, th {
+        text-align: center;
+    }
+
+    table {
+        border-spacing: 0;
+        width: 100%;
+        display: table;
+        border-bottom: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+    }
+
+    .thstyle {
+        border-right-style: solid;
+        border-right-color: lightgray;
+        border-right-width: 1px
+    }
+
+    div.c {
+        text-align: right;
+    }
+
+    div.b {
+        text-align: left;
+    }
+
+    p.test {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+
+    x.test {
+        word-wrap: break-word;
+        white-space: pre-line;
+    }
+
+    #footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .table-wrap {
+        height: 480px;
+        overflow-y: hidden;
+    }
+</style>
+
+@{int counter = 0;}
+@{int numberofrows = 16;
+    if(Model.PagingList.Count == 1)
+    {
+        if (Model.PagingList[0].pageDetails.Count >= 10)
+        {
+            numberofrows = 15;
+        }
+    }
+}
+@{string height = "495px";}
+@{string footerheight = "230px";}
+@{bool advanceprint = true;}
+@foreach (var m in Model.PagingList)
+{
+
+
+    <div>
+
+        <body>
+
+
+
+            <img src="~/images/ssaalheader.PNG" />
+            <br />
+            <div style="top:50px">
+                @if (counter != 0)
+                {
+
+
+                }
+                @if (Model.PagingList.Count > 1)
+                {
+                    if (counter == 0)
+                    {
+                        footerheight = "155px";
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        
+                    }
+                    else
+                    {
+                        <br />
+                        footerheight = "245px";
+                    }
+                }
+                <P ALIGN=CENTER STYLE="margin-bottom: 0.05in"><FONT SIZE=5><B>TAX INVOICE</B></FONT></P>
+
+                @if (counter == 0)
+                {
+                    if (Model.Invoice.AdvanceAmount > 0)
+                    {
+                        numberofrows = 13;
+                    }
+                    <div style=" height:122px; overflow-y: hidden;font-weight:bold;padding-top:0px">
+                        <div class="col-container" style="height:100px;max-height:100px;overflow-y: hidden;">
+
+                            <div class="col" style="        width: 65%;
+        text-align: left;
+        border-radius: 20px !important;">
+                                <b> @Model.Customer.CustomerName</b>
+                                <p class="test">@Model.Customer.Address</p>
+                                VATIN : @Model.Customer.TaxRegNo
+                            </div>
+                            <div class="col" style="width:2px;border-style: none;">
+
+                            </div>
+                            <div class="col" style="width:32%;text-align:left">
+                                VATIN &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;:<b> @Model.configuration.TaxRegNo </b>
+                                <br />
+                                Invoice No &nbsp; &nbsp;: @Model.Invoice.InvoiceNo
+                                <br />
+                                Invoice Date&nbsp;: @((Model.Invoice.InvoiceDate ?? DateTime.Today).ToShortDateString())
+                                <br />
+                                Client Job No: @Model.Invoice.ClientJobNo
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    numberofrows = 16;
+                    if (Model.Invoice.AdvanceAmount > 0)
+                    {
+                        numberofrows = 13;
+                    }
+                    height = "580px";
+
+                }
+            </div>
+
+            <br />
+            <div class="table-wrap" style="height:@height">
+
+                <table id="myTable" style="padding:1px;height:200px !important">
+                    <thead>
+
+                        <tr style="border-bottom-style: solid;
+        border-bottom-color: lightgray;
+        border-bottom-width: 1px;
+        height: 25px;
+        border-top-style: solid;
+        border-top-color: black;
+        border-top-width: 1px;
+">
+                            <th class="thstyle" style="        width: 50px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+
+">SL No</th>
+                            <th class="thstyle" style="width:80px;">Date</th>
+                            <th class="thstyle" style="width:310px;">Particular</th>
+                            <th class="thstyle" style="width:50px;">Qty</th>
+                            <th class="thstyle" style="        width: 80px;
+
+">Rate OMR</th>
+                            @if (Model.Details.Any(i => i.DisAmount > 0))
+                            {
+                                <th class="thstyle" style="        width: 80px;
+
+">Discount OMR</th>
+                            }
+                            <th class="thstyle" style="        width: 50px;
+
+">Vat %</th>
+                            <th class="thstyle" style="        width: 60px;
+
+">Vat OMR</th>
+                            <th class="thstyle" style="        width: 80px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+    ">Amt OMR</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    @foreach (var i in m.pageDetails)
+                    {
+
+                        <tr style="height:auto;padding:4px;">
+                            <td class="thstyle" style="        width: 50px;padding:2px;
+        vertical-align: top;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+">
+                                @i.InvoiceJobNo
+                            </td>
+                            <td class="thstyle" style="width:80px;vertical-align:top;padding:2px;">
+                                @if (i.Date != null)
+                                {
+                                    if (i.InvoiceTotalNoOfPkgs == "N")
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        <x> @((i.Date ?? DateTime.Today).ToString("dd/MM/yyyy"))</x>
+                                    }
+                                }
+                            </td>
+                            <td class="thstyle" style="width:250px;text-align:left;padding:2px;">
+                                @{ int count = 0; }
+
+                                <text class="test">
+                                    <span style="white-space: pre-line">@i.Description</span>
+                                </text>
+                                @if (i.ExchangeRate != null)
+                                {
+                                    @if (i.ExchangeRate != 1)
+                                    {
+                                        <t>(@i.CurrencyCurrencyCode : @i.Amount x @i.ExchangeRate)</t>
+                                    }
+                                }
+
+                            </td>
+                            <td class="thstyle" style="width:30px;vertical-align:top;padding:2px;"> @((i.Qty ?? 0).ToString("0.##"))</td>
+                            <td class="thstyle" style="width:80px;text-align:right;padding:2px;vertical-align:top"> @i.Amount</td>
+                            @if (Model.Details.Any(j => j.DisAmount > 0))
+                            {
+                                <td class="thstyle" style="width:80px;text-align:right;padding:2px;vertical-align:top"> @i.DisAmount</td>
+                            }
+                            <td class="thstyle" style="width:40px;text-align:right;padding:2px;vertical-align:top"> @i.TaxPer</td>
+                            <td class="thstyle" style="width:60px;text-align:right;padding:2px;vertical-align:top">
+                                @if (i.TaxAmount != 0)
+                                {
+                                    @i.TaxAmount
+                                }
+
+                            </td>
+                            <td style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding: 2px;
+        vertical-align: top;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                @i.TotalAmountInLocalCurrency
+                            </td>
+                            <td></td>
+                        </tr>
+
+                    }
+                    @for (int i = m.rowcount; i <= numberofrows; i++)
+                    {
+                        <tr style="height:20px">
+                            <td class="thstyle" style="        width: 50px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+"></td>
+                            <td class="thstyle" style="width:80px"></td>
+                            <td class="thstyle" style="width:250px;text-align:left;padding:2px">
+                            </td>
+                            <td class="thstyle" style="width:40px"> </td>
+                            <td class="thstyle" style="width:80px;text-align:right;padding-right:3px"> </td>
+                            @if (Model.Details.Any(j => j.DisAmount > 0))
+                            {
+                                <td class="thstyle" style="width:80px;text-align:right;padding-right:3px"> </td>
+                            }
+                            <td class="thstyle" style="width:40px;text-align:right;padding-right:3px"> </td>
+                            <td class="thstyle" style="width:60px;text-align:right;padding-right:3px"> </td>
+                            <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+"> </td>
+                            <td></td>
+                        </tr>
+                    }
+                    @if (Model.Invoice.AdvanceAmount > 0)
+                    {
+                        if (Model.PagingList.Count > 0)
+                        {
+                            advanceprint = false;
+                            @if (m.pagenumber == Model.PagingList.Count)
+                            {
+                                advanceprint = true;
+                            }
+                        }
+                        if (advanceprint)
+                        {
+                            <tr style="height:20px">
+                                <td class="thstyle" style="        width: 50px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+"></td>
+                                <td class="thstyle" style="width:80px"></td>
+                                <td class="thstyle" style="        width: 250px;
+        text-align: left;
+        padding: 2px;
+        border-top: solid;
+        border-top-color: lightgray
+">
+                                    Sub Total R/O:
+                                </td>
+                                <td class="thstyle" style="        width: 40px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                @if (Model.Details.Any(j => j.DisAmount > 0))
+                                {
+                                    <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                }
+                                <td class="thstyle" style="        width: 40px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                <td class="thstyle" style="        width: 60px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                <td class="thstyle" style="        width: 80px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+">
+                                    @Model.Invoice.TotalAmount
+                                </td>
+                            </tr>
+                            <tr style="height:20px">
+                                <td class="thstyle" style="width: 50px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+"></td>
+                                <td class="thstyle" style="width:80px"></td>
+                                <td class="thstyle" style="        width: 250px;
+        text-align: left;
+        padding: 2px;
+        border-top: solid;
+        border-top-color: lightgray
+">
+                                    Advance Amount:
+                                </td>
+                                <td class="thstyle" style="        width: 40px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                @if (Model.Details.Any(j => j.DisAmount > 0))
+                                {
+                                    <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                }
+                                <td class="thstyle" style="        width: 40px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                <td class="thstyle" style="        width: 60px;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray
+"> </td>
+                                <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                    @Model.Invoice.AdvanceAmount
+                                </td>
+                                <td></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr style="height:20px">
+                                <td class="thstyle" style="        width: 50px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+"></td>
+                                <td class="thstyle" style="width:80px"></td>
+                                <td class="thstyle" style="width:250px;text-align:left;padding:2px">
+                                </td>
+                                <td class="thstyle" style="width:40px"> </td>
+                                <td class="thstyle" style="width:80px;text-align:right;padding-right:3px"> </td>
+                                <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+"> </td>
+                                <td></td>
+                            </tr>
+                            <tr style="height:20px">
+                                <td class="thstyle" style="        width: 50px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+"></td>
+                                <td class="thstyle" style="width:80px"></td>
+                                <td class="thstyle" style="width:250px;text-align:left;padding:2px">
+                                </td>
+                                <td class="thstyle" style="width:40px"> </td>
+                                <td class="thstyle" style="width:80px;text-align:right;padding-right:3px"> </td>
+                                @if (Model.Details.Any(j => j.DisAmount > 0))
+                                {
+                                    <td class="thstyle" style="width:80px;text-align:right;padding-right:3px"> </td>
+                                }
+                                <td class="thstyle" style="width:40px;text-align:right;padding-right:3px"> </td>
+                                <td class="thstyle" style="width:60px;text-align:right;padding-right:3px"> </td>
+                                <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+"> </td>
+                                <td></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                    @if (m.pagenumber == Model.PagingList.Count)
+                    {
+                        int colspan = 4;
+                        @if (Model.Details.Any(j => j.DisAmount > 0))
+                        {
+                            colspan = 5;
+                        }
+                              <tr style="height:20px !important">
+                    <td height="20px" class="thstyle" colspan="@colspan" rowspan="5" style="        padding: 2px;
+      text-align:left;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-top: solid;
+        border-top-color: lightgray;
+">
+                        <b>
+                            @if (Model.Invoice.AdvanceAmount > 0)
+                            {
+                                <x>Balance Amount OMR:</x>
+                            }
+                            else
+                            {
+                                <x>
+                                    Total OMR:
+                                </x>
+                            }
+                          
+                            @Model.amountinwords Only
+                        </b>
+                    </td>
+                    
+                    <td class="thstyle" colspan="3" height="20px" style="        width: 80px;
+        height: 20px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+  ">
+                        Sub Total exclude VAT
+                    </td>
+                    <td class="thstyle" style="        width: 80px;
+        height: 20px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                        <b>
+                            @Model.Details.Sum(i => i.TaxableAmount)
+                        </b>
+                           
+                        
+                    </td>
+
+                </tr>
+                        <tr style="height:20px">
+
+
+                            <td class="thstyle" colspan="3" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                Discount Amount
+                            </td>
+                            <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                <b>
+                                    @((Model.Details.Sum(i => i.DisAmount)??0).ToString("N3"))
+                                    </b>
+                                
+                            </td>
+
+                        </tr>
+                        <tr style="height:20px">
+
+
+                            <td class="thstyle" colspan="3" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                <b> Total Amount</b>
+                               
+                            </td>
+                            <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                <b>
+                                    @Model.Details.Sum(i => i.TaxableAmount)
+                                </b>
+                            </td>
+
+                        </tr>
+                        <tr style="height:20px">
+
+
+                            <td class="thstyle" colspan="3" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                <b>VAT Amount</b>
+                                
+                            </td>
+                            <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                <b>
+                                    @Model.Details.Sum(i => i.TaxAmount)
+                                </b>
+                            </td>
+
+                        </tr>
+                        <tr style="height:20px">
+
+
+                            <td class="thstyle" colspan="3" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+"><b>Total Net Amount</b>
+                                
+                            </td>
+                            <td class="thstyle" style="        width: 80px;
+        border-right-style: none;
+        text-align: right;
+        padding-right: 3px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+">
+                                <b>
+                                    @Model.Invoice.BalanceAmount
+                                </b>
+                            </td>
+
+                        </tr>
+
+                    }
+                </table>
+            </div>
+            <div style=" height:@footerheight; overflow-y: hidden;font-weight:bold;padding-top:1px">
+                @if (m.pagenumber == @Model.PagingList.Count)
+                {
+                <div>
+                    @*<div style=" height:60px; overflow-y: hidden;font-weight:bold;padding-top:0px">
+                       <table style=" border: 1px solid black;width:320px">
+                           <thead>
+                               <tr style=" border: 1px solid black;width:80px">
+                                   <th style=" border: 1px solid black;" >
+                                       Vat %
+                                   </th>
+                                   <th style=" border: 1px solid black;width:120px">
+                                       Gross Amount
+                                   </th>
+                                   <th style=" border: 1px solid black;width:120px">
+                                       Vat Amount
+                                   </th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               @foreach (var k in @Model.Details.GroupBy(i => i.TaxPer)) {
+                               <tr>
+                                   <td style=" border-right: 1px solid black;">
+                                       @((k.Key??0).ToString("N2"))
+                                   </td>
+                                     
+                                   <td style=" border-right: 1px solid black;text-align:right;padding-right:3px">
+                                       @k.Sum(i => i.TaxableAmount)
+                                   </td>
+                                   <td style="text-align:right;padding-right:3px">
+                                       @k.Sum(i => i.TaxAmount??0).ToString("N3")
+                                   </td>
+                               </tr>
+                               }
+                           </tbody>
+                       </table>
+                    </div>*@
+                    Remarks:
+                    <p style="padding-left:5px;height:40px;overflow-y:hidden" class="test">@Model.Invoice.Remarks</p>
+
+                    Bank Details:
+                    <div style="border-style: solid; border-color: black; border-width: 1px; border-radius: 20px; width:100%;font-size:10px">
+                        <div class="col" style="width:100px;border-style: none;text-align:left;padding-left:6px">
+                            <p style="padding:0px;margin:0px">
+                                Bank Name
+                            </p>
+
+                            <p style="padding:0px;margin:0px">
+                                Account Name
+                            </p>
+                            <p style="padding:0px;margin:0px">
+                                Swift Code
+                            </p>
+                        </div>
+                        <div class="col" style="width:40%;border-style: none;text-align:left;padding-left:6px">
+                            <p style="padding:0px;margin:0px">
+                                : @Model.configuration.BankName
+                            </p>
+
+                            <p style="padding:0px;margin:0px">
+                                : @Model.configuration.AccountName
+                            </p>
+                            <p style="padding:0px;margin:0px">
+                                : @Model.configuration.SwiftCode
+                            </p>
+                        </div>
+                        <div class="col" style="width:120px;border-style: none;text-align:left;padding-left:6px">
+                            <p style="padding:0px;margin:0px">
+
+                            </p>
+
+                            <p style="padding:0px;margin:0px">
+                                Account Number
+                            </p>
+                            <p style="padding:0px;margin:0px">
+                                Iban No
+                            </p>
+                        </div>
+                        <div class="col" style="width:20%;border-style: none;text-align:left;padding-left:6px">
+                            <p style="padding:3px;margin:0px">
+
+                            </p>
+
+                            <p style="padding:0px;margin:0px">
+                                : @Model.configuration.AccountNumber
+                            </p>
+                            <p style="padding:0px;margin:0px">
+                                : @Model.configuration.IbanNo
+                            </p>
+                        </div>
+                    </div>
+                    <br />
+                    <div style="border-style: solid; border-color: black; border-width: 1px; border-radius: 10px; width:100%;font-size:10px;padding-top:3px">
+                        <p style="text-align:center;vertical-align:central">
+                            Any queries must be made in writing within 7 days of the invoice date; After which no claims will be entertained
+                        </p>
+                    </div>
+
+
+
+
+                </div>
+                }
+            </div>
+            <div style="border-style: solid; border-color: black; border-width: 0px; border-radius: 10px; width:100%;font-size:10px;padding-top:1px">
+                <p style="text-align:center;vertical-align:central">
+                    This is system generated Document,no need signature and stamp
+
+                </p>
+                <p>
+                    <l name="date"></l> &nbsp; &nbsp; &nbsp;   Printed By: @Model.User
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+
+                    Page Number: @m.pagenumber of @Model.PagingList.Count
+                </p>
+            </div>
+            <img src="~/images/ssaalfooter.PNG" />
+        </body>
+    </div>
+    counter = counter + 1;
+}
+<script>
+    //$(document).ready(function () {
+    //    $("#sample").text("sd");
+    //    SerExtraCore.Invoice.initializePage();
+
+    //});
+    n = new Date();
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    var k = document.getElementsByName("date");
+    for (var x = 0; x < k.length; x++)   // comparison should be "<" not "<="
+    {
+        k[x].innerHTML = "Printed On:" + d + "/" + m + "/" + y;
+    }
+
+</script>
+

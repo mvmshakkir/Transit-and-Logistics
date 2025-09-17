@@ -1,0 +1,140 @@
+﻿@model SerExtraCore.Transactions.Pages.BalanceSheet.TrialBalanceViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<style>
+    .samediv {
+        max-width: 330px;
+        min-width: 330px;
+        background: grey;
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+<section class="invoice">
+    @*<div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header" style="text-align:center">
+                    Account Statement<br />
+                    From:@Model.aboutreport.FromDate.ToShortDateString() To:@Model.aboutreport.ToDate.ToShortDateString()
+                    <small class="pull-right">Date: @DateTime.Now.ToShortDateString()</small>
+                </h2>
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-sm-8">
+            <h2 class="page-header" style="text-align:center">Balance Sheet</h2>
+        </div>
+        @if (Model.aboutreport.FromDate == null)
+        {
+            <div class="col-sm-12" style="text-align:center">As Date:@Model.aboutreport.AsDate.ToShortDateString()</div>
+        }
+        else
+        {
+    <div class="col-sm-12" style="text-align:center">From Date:@((Model.aboutreport.FromDate??DateTime.Now).ToShortDateString()) To Date:@Model.aboutreport.AsDate.ToShortDateString()</div>
+        }
+    </div>
+    <!-- info row -->
+    <!-- /.row -->
+    <!-- Table row -->
+    <div class="container">
+
+        <table class="table table-striped" style="border:double">
+            <thead>
+                <tr style="border:double">
+                    <th width="200px" style="text-align:left" colspan="2"><strong style="font-size:12px;font-style:normal;">Assets</strong></th>
+
+                    <th width="200px" style="text-align:left;border-left: double" colspan="2"><strong style="font-size:12px;font-style:normal">Liabilities & Stockholders' equity</strong></th>
+
+                </tr>
+                <tr style="border:double">
+                    <th width="200px" style="text-align:left"><strong style="font-size:12px;font-style:normal">Particulars</strong></th>
+                    <th width="200px" style="text-align:right"><strong style="font-size:12px;font-style:normal">Amount</strong></th>
+                    <th width="200px" style="text-align:left;border-left: double"><strong style="font-size:12px;font-style:normal">Particulars</strong></th>
+                    <th width="200px" style="text-align:right"><strong style="font-size:12px;font-style:normal">Amount</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.pls)
+                {
+                <tr>
+
+                    <td ><strong style="font-size:10px;font-style:normal">@d.CRGL</strong></td>
+                    <td style="text-align:right">
+                        <strong style="font-size:10px;font-style:normal;text-align:center">
+                            @if (d.CRAMOUNT != null)
+                            {
+                                @((d.CRAMOUNT??0).ToString("#,##0.000"))
+                            }
+
+                        </strong>
+                    </td>
+                    <td style="border-left: double"><strong style="font-size:10px;font-style:normal">@d.DRGL</strong></td>
+                    <td style="text-align:right">
+                        <strong style="font-size:10px;font-style:normal;text-align:center">
+                            @if (d.DRAMOUNT != null)
+                            {
+                                @((d.DRAMOUNT ?? 0).ToString("#,##0.000"))
+                            }
+
+                        </strong>
+                    </td>
+                </tr>
+                }
+
+                <tr style="border:double">
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                    <td style="text-align:right"><strong style="font-size:12px;font-style:normal;text-align:center;font-weight:bold">@((Model.pls.Sum(i => i.CRAMOUNT)??0).ToString("#,##0.000"))</strong></td>
+                    <td style="text-align:right;border-left:double"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                    <td style="text-align:right;"><strong style="font-size:12px;font-style:normal;text-align:center;font-weight:bold">@((Model.pls.Sum(i => i.DRAMOUNT)??0).ToString("#,##0.000"))</strong></td>
+                </tr>
+            </tbody>
+           
+        </table>
+    </div>
+
+
+
+
+
+    @*<div class="row">
+            <div class="col-xs-6">
+
+            </div>
+             /.col
+            <div class="col-xs-6">
+                <p class="lead">Amount Due @(Model.Order.OrderDate.Value.AddDays(10).ToShortDateString())</p>
+
+                @{
+                    var subTotal = Model.Details.Sum(x => x.LineTotal ?? 0);
+                }
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th style="width:50%">Subtotal:</th>
+                            <td>$@subTotal.ToString("#,##0.00")</td>
+                        </tr>
+                        <tr>
+                            <th>Tax (9.3%)</th>
+                            <td>$@((subTotal * 0.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping:</th>
+                            <td>$5.80</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <td>$@((subTotal * 1.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>*@
+</section>

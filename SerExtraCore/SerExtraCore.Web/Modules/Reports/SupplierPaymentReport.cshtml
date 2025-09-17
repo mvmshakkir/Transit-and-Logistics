@@ -1,0 +1,128 @@
+﻿@model SerExtraCore.Transactions.Pages.SupplierPaymentReport.AccountStatementViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+    <section class="invoice">
+        @*<div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header" style="text-align:center">
+                        Account Statement<br />
+                        From:@Model.aboutreport.FromDate.ToShortDateString() To:@Model.aboutreport.ToDate.ToShortDateString()
+                        <small class="pull-right">Date: @DateTime.Now.ToShortDateString()</small>
+                    </h2>
+                </div>
+            </div>*@
+        <div class="row">
+            <div class="col-sm-8">
+                <h2 class="page-header" style="text-align:center">Supplier Payment Report</h2>
+                @if (Model.supplierRow != null)
+                {
+
+                    <h6>
+                        Supplier :  @Model.supplierRow.SupplierName
+                    </h6>
+
+                }
+                @if (Model.aboutreport.FromDate != null)
+                {
+
+                    <h6>
+                        From :  @((Model.aboutreport.FromDate ?? DateTime.Today).ToShortDateString())
+                    </h6>
+
+                }
+                @if (Model.aboutreport.ToDate != null)
+                {
+
+                    <h6>
+                        To :  @((Model.aboutreport.ToDate ?? DateTime.Today).ToShortDateString())
+                    </h6>
+
+                }
+            </div>
+
+        </div>
+        <!-- info row -->
+        <!-- /.row -->
+        <!-- Table row -->
+        <div class="container">
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th width="40px" style="text-align:left"><strong style="font-size:12px;font-style:normal">SlNo</strong></th>
+                        <th width="60px" style="text-align:left"><strong style="font-size:12px;font-style:normal">Trx Type</strong></th>
+                        <th width="80px" style="text-align:center"><strong style="font-size:12px;font-style:normal">Consignment Date</strong></th>
+                        <th width="80px" style="text-align:center"><strong style="font-size:12px;font-style:normal">WayBillNo</strong></th>
+                        <th width="100px" style="text-align:center"><strong style="font-size:12px;font-style:normal">Loading Loc</strong></th>
+                        <th width="100px" style="text-align:center"><strong style="font-size:12px;font-style:normal">OffLoading Loc</strong></th>
+                        <th width="80px" style="text-align:right"><strong style="font-size:12px;font-style:normal">TrxAmount</strong></th>
+                        <th width="80px" style="text-align:right"><strong style="font-size:12px;font-style:normal">Advance</strong></th>
+                        <th width="80px" style="text-align:right"><strong style="font-size:12px;font-style:normal">PaidAmount</strong></th>
+                        <th width="80px" style="text-align:right"><strong style="font-size:12px;font-style:normal">Balance</strong></th>
+                        <th width="100px" style="text-align:right"><strong style="font-size:12px;font-style:normal">Total Balance</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.Details)
+                    {
+                    <tr>
+                        <td><strong style="font-size:10px;font-style:normal">@d.slno</strong></td>
+                        <td style="text-align:left">
+
+                            <strong style="font-size:10px;font-style:normal">@d.TrxType</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong style="font-size:10px;font-style:normal">@if (@d.ConsignmentDate != null) {@((d.ConsignmentDate??DateTime.Today).ToShortDateString())}</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong style="font-size:10px;font-style:normal">@d.WayBillNo</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong style="font-size:10px;font-style:normal">@d.LoadingLoc</strong>
+                        </td>
+                        <td style="text-align:center">
+                            <strong style="font-size:10px;font-style:normal">@d.OffLoadingLoc</strong>
+                        </td>
+                        <td style="text-align:right">
+                            <strong style="font-size:10px;font-style:normal">@d.TrxAmount</strong>
+                        </td>
+                        <td style="text-align:right">
+                            <strong style="font-size:10px;font-style:normal">@d.Advance</strong>
+                        </td>
+                        <td style="text-align:right">
+                            <strong style="font-size:10px;font-style:normal">@d.PaidAmount</strong>
+                        </td>
+                        <td style="text-align:right">
+                            <strong style="font-size:10px;font-style:normal">@d.Balance</strong>
+                        </td>
+                        <td style="text-align:right">
+                            <strong style="font-size:10px;font-style:normal">@d.TotalBalance</strong>
+                        </td>
+                    </tr>
+                    }
+                <tr>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold"></strong></td>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold">Total:</strong></td>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold"></strong></td>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold"></strong></td>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold"></strong></td>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold"></strong></td>
+                    <td style="text-align:right;font-style:normal;font-weight:bold"><strong style="font-size:12px;font-style:normal;text-align:center">@Model.Details.Sum(i => i.TrxAmount)</strong></td>
+                    <td style="text-align:right;font-style:normal;font-weight:bold"><strong style="font-size:12px;font-style:normal;text-align:center">@Model.Details.Sum(i => i.Advance)</strong></td>
+                    <td style="text-align:right;font-style:normal;font-weight:bold"><strong style="font-size:12px;font-style:normal;text-align:center">@Model.Details.Sum(i => i.PaidAmount)</strong></td>
+                    <td style="text-align:right;font-style:normal;font-weight:bold"><strong style="font-size:12px;font-style:normal;text-align:center">@Model.Details.Sum(i => i.Balance)</strong></td>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold"></strong></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+

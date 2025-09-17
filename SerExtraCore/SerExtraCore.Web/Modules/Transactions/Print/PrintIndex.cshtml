@@ -1,0 +1,43 @@
+﻿@model SerExtraCore.Web.Modules.ReportDataDesign;
+
+<script>
+    function click() {
+        alert("edfed");
+        var objAjax = new Object();
+        objAjax.Course = 'newCourse'; // Model prop is string type so this value must be string.
+        objAjax.Title = 'newTitle';
+
+        $.ajax('@Url.Action("Index", "View")', {
+            type: 'POST',
+            data: JSON.stringify(@Model),
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (returnData) {
+                // Do something when get success
+            },
+            error: function () {
+                // Do something when get an error
+            }
+        });
+    }
+    function abcd() {
+        alert("dedf");
+
+         $.ajax('@Url.Action("Index", "View")', {
+            type: 'POST',
+            data: JSON.stringify(@Model),
+            contentType: "application/json",
+            dataType: "json",
+            traditional: true,
+            success: function (returnData) {
+                // Do something when get success
+            },
+            error: function () {
+                // Do something when get an error
+            }
+        });
+    }
+</script>
+<button onclick="abcd()">sds</button>
+

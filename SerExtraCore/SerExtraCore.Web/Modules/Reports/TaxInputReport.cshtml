@@ -1,0 +1,56 @@
+﻿@model SerExtraCore.Transactions.Pages.TaxInputReport.TaxInputViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+<section>
+    <style>
+        #details td,th{
+            border:1px solid black;
+            padding:5px;
+            font-size:11px;
+        }
+    </style>
+    <table style="width:100%">
+        <tr style="text-align:center">
+            <td>
+                <h4>TAX OUTPUT REPORT</h4>
+            </td>
+        </tr>
+        <tr style="text-align:center">
+            <td >
+                <p>From : @Model.FromDate.ToShortDateString() To : @Model.ToDate.ToShortDateString()</p>
+            </td>
+        </tr>
+    </table >
+       <table id="details" style="width:100%">
+       <tr>
+           <th style="width:10%;text-align:center">Date</th>
+           <th style="width:11%;text-align:center">Invoice No</th>
+           <th style="text-align:center">Customer Name</th>
+           <th style="text-align:center">Tax Registration No</th>
+           <th style="text-align:center;width:18%">Taxable Amount</th>
+           <th style="text-align:center;width:12%">Tax Amount</th>
+       </tr>
+       @foreach(var item in Model.Details)
+       {
+           <tr>
+               <td>@item.InvoiceDate.ToShortDateString()</td>
+               <td style="text-align:center">@item.InvoiceNO</td>
+               <td>@item.CustomerName</td>
+               <td>@item.TaxRegNo</td>
+               <td style="text-align:right">@item.TaxableAmount.ToString("N3")</td>
+               <td style="text-align:right">@item.TaxAmount.ToString("N3")</td>
+               
+           </tr>
+       }
+       <tr>
+           <td colspan="4" style="text-align:right"><b>Total</b></td>
+           <td style="text-align:right"><b>@Model.Details.Sum(x => x.TaxableAmount).ToString("N3")</b></td>
+           <td style="text-align:right"><b>@Model.Details.Sum(x => x.TaxAmount).ToString("N3")</b></td>
+       </tr>
+   </table>    
+</section>

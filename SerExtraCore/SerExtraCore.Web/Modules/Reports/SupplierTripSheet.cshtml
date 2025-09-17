@@ -1,0 +1,144 @@
+﻿@model SerExtraCore.Transactions.Pages.SupplierTripSheet.AccountStatementViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+<section class="invoice">
+    @*<div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header" style="text-align:center">
+                    Account Statement<br />
+                    From:@Model.aboutreport.FromDate.ToShortDateString() To:@Model.aboutreport.ToDate.ToShortDateString()
+                    <small class="pull-right">Date: @DateTime.Now.ToShortDateString()</small>
+                </h2>
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-sm-8">
+            <h2 class="page-header" style="text-align:center">Supplier Trip Sheet</h2>
+            <h2 class="page-header" style="text-align:center">Supplier:@Model.supplier.SupplierName</h2>
+        </div>
+        <div class="col-sm-4">
+            Statement Period:
+            @if (@Model.aboutreport.FromDate != null)
+            {
+                <label>From :</label> @((Model.aboutreport.FromDate??DateTime.Today).ToShortDateString());
+            }
+            @if (@Model.aboutreport.ToDate != null)
+            {
+                <label>To :</label> @((Model.aboutreport.ToDate ?? DateTime.Today).ToShortDateString());
+            }
+            
+        </div>
+    </div>
+    <!-- info row -->
+    <!-- /.row -->
+    <!-- Table row -->
+    <div>
+
+        <table border="1" style="border-width:thin;border-color:gainsboro">
+            <thead>
+                <tr>
+                    <th width="30px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Slno</strong></th>
+                    <th width="100px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Date</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Way Bill No</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Loading Loc</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Offloading Loc</strong></th>
+                    <th width="250px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Charge Details</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Amount</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Advance</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Paid Amount</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">Balance</strong></th>
+                    <th width="120px" style="text-align:center"><strong style="font-size:10px;font-style:normal">TotalBalance</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+               @if(Model.Details.Count>0){
+                @foreach (var d in Model.Details)
+                {
+                <tr>
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">@d.Slno</strong></td>
+                    <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">@(d.Date.ToShortDateString())</strong></td>
+
+                    <td style="text-align: center"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.WayBillNo)</strong></td>
+                    <td style="text-align: center"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.LoadingLoc)</strong></td>
+                    <td style="text-align: center"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.OffLoadingLoc)</strong></td>
+                    <td style="text-align: center"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.Description)</strong></td>
+                    <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.TrxAmount)</strong></td>
+                    <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.Advance)</strong></td>
+                    <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.PaidAmount)</strong></td>
+                    <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.Balance)</strong></td>
+                    <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@(d.TotalBalance)</strong></td>
+
+                </tr>
+                }
+                }
+            <tr>
+                <td><strong style="font-size:8px;font-style:normal"></strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center">Total:</strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+
+
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:center"><strong style="font-size:8px;font-style:normal;text-align:center"></strong></td>
+                <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@Model.Details.Sum(i => i.TrxAmount)</strong></td>
+                <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@Model.Details.Sum(i => i.Advance)</strong></td>
+                <td style="text-align:right"><strong style="font-size:8px;font-style:normal;text-align:right">@Model.Details.Sum(i => i.PaidAmount)</strong></td>
+                <td style="        text-align: right
+"><strong style="font-size:8px;font-style:normal;text-align:right">@Model.Details.Sum(i => i.Balance)</strong></td>
+                <td style="text-align:right">
+                    <strong style="font-size:8px;font-style:normal;text-align:right">
+                        @if (Model.Details.Count > 0)
+                        {
+                            @Model.Details[Model.Details.Count - 1].TotalBalance
+                        }
+                    </strong>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+    @*<div class="row">
+            <div class="col-xs-6">
+
+            </div>
+             /.col
+            <div class="col-xs-6">
+                <p class="lead">Amount Due @(Model.Order.OrderDate.Value.AddDays(10).ToShortDateString())</p>
+
+                @{
+                    var subTotal = Model.Details.Sum(x => x.LineTotal ?? 0);
+                }
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th style="width:50%">Subtotal:</th>
+                            <td>$@subTotal.ToString("#,##0.00")</td>
+                        </tr>
+                        <tr>
+                            <th>Tax (9.3%)</th>
+                            <td>$@((subTotal * 0.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping:</th>
+                            <td>$5.80</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <td>$@((subTotal * 1.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>*@
+</section>

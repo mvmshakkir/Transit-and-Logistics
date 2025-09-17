@@ -1,0 +1,851 @@
+﻿@model SerExtraCore.Transactions.QuotationFormatItems
+
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<style>
+    .float-container {
+    }
+
+    .float-child {
+        width: 50%;
+        float: left;
+    }
+
+    .heddiv {
+    }
+
+    .row {
+        display: flex; /* equal height of the children */
+    }
+
+    .col-container {
+        display: table;
+        width: 100%;
+    }
+
+
+    .col {
+        overflow: hidden;
+        display: table-cell;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        border-radius: 20px !important;
+        padding: 10px;
+    }
+
+    .bullelements {
+        font-size: 2rem;
+        padding-left: 20px
+    }
+</style>
+
+
+<label id="sample"></label>
+
+@if (Model.type == "KSA")
+{
+
+    <body>
+        <div>
+            <br />
+            <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT SIZE=5><B>QUOTATION</B></FONT></P>
+            <div class="float-container">
+                <div class="float-child">
+                    <table>
+                        <tr>
+                            <td style="text-align: right;
+        padding: 5px;
+        padding-left: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                REF.NO
+                            </td>
+                            <td style="text-align: left;
+        padding: 5px;
+        padding-right: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                @Model.quotations.QuotNo
+                            </td>
+
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="float-child">
+                    <table align="right">
+                        <tr>
+                            <td style="text-align: right;
+        padding: 5px;
+        padding-left: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                DATE
+                            </td>
+                            <td style="text-align: left;
+        padding: 5px;
+        padding-right: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                @if (@Model.quotations.Date != null)
+                                {
+                                    @((Model.quotations.Date ?? DateTime.Now).ToShortDateString())
+                                }
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="col-container">
+
+                <div class="col" style="        width: 65%;
+        text-align: left;
+        border-radius: 20px !important;">
+                    <b> @Model.quotations.CustomerCustomerName</b>
+                    <p class="test">@Model.quotations.CustomerAddress</p>
+
+                </div>
+                <div class="col" style="width:2px;border-style: none;">
+
+                </div>
+                <div class="col" style="width:32%;text-align:left">
+                    ENQUIRY REF &nbsp; &nbsp;: @Model.quotations.Enquiryref
+                    <br />
+                    CONT.PERSON&nbsp;: @Model.quotations.ContactPerson
+                    <br />
+                    FAX.NO  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: @Model.quotations.FaxNo
+                </div>
+            </div>
+            <br />
+            <b>
+                ATTN: @Model.quotations.ContactPerson
+            </b>
+            <br />
+            Please find our best rate for hiring below mentioned Equipment/vehicle.
+            <br />
+            <table>
+                <tr style="border-bottom-style: solid;
+        border-bottom-color: lightgray;
+        border-bottom-width: 1px;
+        height: 25px;
+        border-top-style: solid;
+        border-top-color: black;
+        border-top-width: 1px;
+">
+                    <th class="thstyle" style="        width: 60px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align: center
+">SL No</th>
+
+                    <th class="thstyle" style="        width: 500px;
+        padding-left: 3px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        text-align: center;
+        border-right-width: 1px;">DESCRIPTION</th>
+
+                    <th class="thstyle" style="      width: 80px;padding-left:3px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+    ">UNIT</th>
+                    <th class="thstyle" style="        width: 80px;
+        padding-left: 3px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+    ">RATE OMR</th>
+                    <th></th>
+                </tr>
+                @{int count = 1;}
+                @foreach (var i in Model.Details)
+                {
+
+                    <tr style="height:auto;padding-top:2px;">
+                        <td class="thstyle" style="    width: 50px;
+        vertical-align: top;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left:3px;
+        text-align: center
+    ">
+                            @count
+
+                        </td>
+
+                        <td class="thstyle" style="        width: 250px;
+        text-align: left;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left: 3px;
+
+">
+                            @i.Description
+
+                        </td>
+                        <td class="thstyle" style="        width: 30px;
+        vertical-align: top;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+        padding-left: 3px;">
+                            @i.Unit
+                        </td>
+                        <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        vertical-align: top;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+">
+                            @i.Rate
+                        </td>
+
+                    </tr>
+                    count = count + 1;
+                }
+                <tr>
+                <tr style="height:auto;padding-top:2px;">
+                    <td class="thstyle" colspan="3" style="    width: 50px;
+        vertical-align: top;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left:3px;
+        text-align: left;
+        font-weight:bold
+
+    ">
+                        Total OMR : @Model.amountinwords
+
+                    </td>
+                    <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        vertical-align: top;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        font-weight: bold
+">
+                        @Model.quotations.TotalAmount
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <b> Note:@Model.quotations.Note</b>
+            <br />
+            <br />
+            <div>
+                @Html.Raw(Model.quotations.TermsAndConditions)
+            </div>
+        </div>
+    </body>
+}
+@if (Model.type == "PDO")
+{
+    <body>
+        <div>
+            <br />
+            <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT SIZE=5><B>QUOTATION</B></FONT></P>
+            <div class="float-container">
+                <div class="float-child">
+                    <table>
+                        <tr>
+                            <td style="text-align: right;
+        padding: 5px;
+        padding-left: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                QUOTE NO
+                            </td>
+                            <td style="text-align: left;
+        padding: 5px;
+        padding-right: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                @Model.quotations.QuotNo
+                            </td>
+
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="float-child">
+                    <table align="right">
+                        <tr>
+                            <td style="text-align: right;
+        padding: 5px;
+        padding-left: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                DATE
+                            </td>
+                            <td style="text-align: left;
+        padding: 5px;
+        padding-right: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                @if (@Model.quotations.Date != null)
+                                {
+                                    @((Model.quotations.Date ?? DateTime.Now).ToShortDateString())
+                                }
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="col-container">
+
+                <div class="col" style="        width: 65%;
+        text-align: left;
+        border-radius: 20px !important;">
+                    <b> @Model.quotations.CustomerCustomerName</b>
+                    <p class="test">@Model.quotations.CustomerAddress</p>
+
+                </div>
+                <div class="col" style="width:2px;border-style: none;">
+
+                </div>
+                <div class="col" style="width:32%;text-align:left">
+                    CONT.PERSON&nbsp;: @Model.quotations.ContactPerson
+
+                    <br />
+                    Mobile &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: @Model.quotations.Mobile
+                    <br />
+                    Email  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: @Model.quotations.Email
+                </div>
+            </div>
+            <br />
+            <b>
+                ATTN: @Model.quotations.ContactPerson
+            </b>
+            <br />
+            <br />
+            Please find our best rate for hiring below mentioned Equipment/vehicle.
+            <br />
+            <b>Vehicle Type:@Model.quotations.VehicleType</b>
+            <br />
+            <br />
+            <table>
+                <tr style="border-bottom-style: solid;
+        border-bottom-color: lightgray;
+        border-bottom-width: 1px;
+        height: 25px;
+        border-top-style: solid;
+        border-top-color: black;
+        border-top-width: 1px;
+">
+                    <th class="thstyle" style="        width: 60px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align: center
+">SL No</th>
+
+                    <th class="thstyle" style="        width: 500px;
+        padding-left: 3px;
+        text-align:center;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;">DESCRIPTION</th>
+                    <th class="thstyle" style="      width: 80px;padding-left:3px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+    ">QTY</th>
+                    <th class="thstyle" style="      width: 80px;padding-left:3px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+    ">UNIT</th>
+                    <th class="thstyle" style="        width: 80px;
+        padding-left: 3px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+    ">RATE(R/O)</th>
+                    <th></th>
+                </tr>
+                @{int count = 1;}
+                @foreach (var i in Model.Details)
+                {
+
+                    <tr style="height:auto;padding-top:2px;">
+                        <td class="thstyle" style="    width: 50px;
+        vertical-align: top;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left:3px;
+        text-align: center
+    ">
+                            @count
+
+                        </td>
+
+                        <td class="thstyle" style="        width: 250px;
+        text-align: left;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left: 3px;
+
+">
+                            @i.Description
+
+                        </td>
+                        <td class="thstyle" style="        width: 30px;
+        vertical-align: top;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+        padding-left: 3px;">
+                            @i.Quantity
+                        </td>
+                        <td class="thstyle" style="        width: 30px;
+        vertical-align: top;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+        padding-left: 3px;">
+                            @i.Unit
+                        </td>
+                        <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        vertical-align: top;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+">
+                            @i.Rate
+                        </td>
+
+                    </tr>
+                    count = count + 1;
+                }
+                <tr>
+                <tr style="height:auto;padding-top:2px;">
+                    <td class="thstyle" colspan="4" style="    width: 50px;
+        vertical-align: top;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left:3px;
+        text-align: left;
+        font-weight:bold
+
+    ">
+                        Total OMR : @Model.amountinwords
+
+                    </td>
+                    <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        vertical-align: top;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        font-weight: bold
+">
+                        @Model.quotations.TotalAmount
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <b> Note:@Model.quotations.Note</b>
+            <br />
+            <br />
+            <div>
+                @Html.Raw(Model.quotations.TermsAndConditions)
+            </div>
+
+        </div>
+
+    </body>
+}
+@if (Model.type == "UAE")
+{
+    <body>
+        <div>
+            <br />
+            <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT SIZE=5><B>QUOTATION</B></FONT></P>
+            <div class="float-container">
+                <div class="float-child">
+                    <table>
+                        <tr>
+                            <td style="text-align: right;
+        padding: 5px;
+        padding-left: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                REF.NO
+                            </td>
+                            <td style="text-align: left;
+        padding: 5px;
+        padding-right: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                @Model.quotations.QuotNo
+                            </td>
+
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="float-child">
+                    <table align="right">
+                        <tr>
+                            <td style="text-align: right;
+        padding: 5px;
+        padding-left: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                DATE
+                            </td>
+                            <td style="text-align: left;
+        padding: 5px;
+        padding-right: 20px;
+        border-top: solid;
+        border-top-color: lightgray;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;">
+                                @if (@Model.quotations.Date != null)
+                                {
+                                    @((Model.quotations.Date ?? DateTime.Now).ToShortDateString())
+                                }
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="col-container">
+
+                <div class="col" style="        width: 65%;
+        text-align: left;
+        border-radius: 20px !important;">
+                    <b> @Model.quotations.CustomerCustomerName</b>
+                    <p class="test">@Model.quotations.CustomerAddress</p>
+
+                </div>
+                <div class="col" style="width:2px;border-style: none;">
+
+                </div>
+                <div class="col" style="width:32%;text-align:left">
+                    ENQUIRY REF &nbsp; &nbsp;: @Model.quotations.Enquiryref
+                    <br />
+                    CONT.PERSON&nbsp;: @Model.quotations.ContactPerson
+                    <br />
+                    FAX.NO  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;: @Model.quotations.FaxNo
+                </div>
+
+            </div>
+            <br />
+            <b>
+                ATTN: @Model.quotations.ContactPerson
+            </b>
+            <br />
+            Please find our best rate for hiring below mentioned Equipment/vehicle.
+            <br />
+            <table>
+                <tr style="border-bottom-style: solid;
+        border-bottom-color: lightgray;
+        border-bottom-width: 1px;
+        height: 25px;
+        border-top-style: solid;
+        border-top-color: black;
+        border-top-width: 1px;
+">
+                    <th class="thstyle" style="        width: 60px;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align: center
+">SL No</th>
+
+                    <th class="thstyle" style="        width: 500px;
+        padding-left: 3px;
+        text-align:center;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;">DESCRIPTION</th>
+
+                    <th class="thstyle" style="      width: 80px;padding-left:3px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+    ">UNIT</th>
+                    <th class="thstyle" style="        width: 100px;
+        padding-left: 3px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        text-align: right
+    ">RATE AED</th>
+                    <th class="thstyle" style="        width: 100px;
+        padding-left: 3px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        text-align:right
+    ">RATE OMR</th>
+                    <th></th>
+                </tr>
+                @{int count = 1;}
+                @foreach (var i in Model.Details)
+                {
+
+                    <tr style="height:auto;padding-top:2px;">
+                        <td class="thstyle" style="    width: 50px;
+        vertical-align: top;
+        border-left-style: solid;
+        border-left-color: black;
+        border-left-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left:3px;
+        text-align: center
+    ">
+                            @count
+
+                        </td>
+
+                        <td class="thstyle" style="        width: 250px;
+        text-align: left;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        padding-left: 3px;
+
+">
+                            @i.Description
+
+                        </td>
+                        <td class="thstyle" style="        width: 30px;
+        vertical-align: top;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        text-align:center;
+        padding-left: 3px;">
+                            @i.Unit
+                        </td>
+                        <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        vertical-align: top;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+">
+                            @i.Rate
+                        </td>
+                        <td class="thstyle" style="        width: 80px;
+        text-align: right;
+        padding-right: 3px;
+        vertical-align: top;
+        border-right-style: solid;
+        border-right-color: black;
+        border-right-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+">
+                            @i.TotalAmountInLocalCurrency
+                        </td>
+
+                    </tr>
+                    count = count + 1;
+                }
+
+
+            </table>
+            <br />
+            <b> Note:@Model.quotations.Note</b>
+            <br />
+            <br />
+            <div>
+                @Html.Raw(Model.quotations.TermsAndConditions)
+            </div>
+
+        </div>
+        </body>
+            }
+                   

@@ -1,0 +1,93 @@
+﻿@model SerExtraCore.Transactions.Pages.CustomerDetailLedger.AccountStatementViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+<section>
+    <style>
+        #details td, th {
+            border: 1px solid black;
+            padding: 5px;
+            font-size: 11px;
+        }
+    </style>
+    <table style="width:100%">
+        <tr style="text-align:center">
+            <td>
+                <h4>CUSTOMER DETAIL LEDGER</h4>
+            </td>
+        </tr>
+        <tr style="text-align:center">
+            <td>
+                <p>From : @Model.aboutreport.FromDate.ToDateFormat() To : @Model.aboutreport.ToDate.ToDateFormat()</p>
+            </td>
+        </tr>
+    </table>
+    <table id="details" style="width:100%">
+        <tr>
+            <th style="border-right:0px">VNo</th>
+            <th style="border-left:0px;border-right:0px">InvoiceDate</th>
+            <th style="border-left:0px;border-right:0px">Remark</th>
+            <th style="border-left:0px">Amount</th>
+            <th style="width:60px;border-left:0px;border-right:0px ">Vno</th>
+            <th style="width: 60px;border-left:0px;border-right:0px">TrxDate</th>
+            <th style="width: 400px;border-left:0px;border-right:0px">Remark</th>
+            <th style="width: 60px;border-left:0px">Amount</th>
+        </tr>
+        @foreach (var item in Model.InvoicesList)
+        {
+            <tr>
+                <td style="border-right: 0px">@item.InvoiceNO</td>
+                <td style="border-left: 0px;border-right:0px">@item.InvoiceDate.ToShortDateString()</td>
+                <td style="border-left: 0px;border-right:0px">
+                    JobNo : @item.JobNo<br />
+                    Customer : @item.CustomerName
+                </td>
+                <td style="border-left: 0px">@item.Amount</td>
+                <td colspan="4">
+                    <table>
+                        @foreach (var coll in item.CollectionList)
+                        {
+                            <tr>
+                                <td style="border:0px;width:50px">@coll.VNo</td>
+                                <td style="border:0px;width:55px">@coll.TrxDate.ToShortDateString()</td>
+                                <td style="border:0px;width:395px">@coll.Remarks</td>
+                                @if (coll.Remarks == "customer payment")
+                                {
+                                    <td style="border:0px;width:70px;text-align:right">@coll.Amount Cr</td>
+                                }
+                                else
+                                {
+                                    <td style="border:0px;width:70px;text-align:right">@coll.Amount Dr</td>
+                                }
+
+                            </tr>
+                        }
+                        <tr>
+                            <td style="text-align:right;border:0px;border-top:1px solid #ccc;width:50px"><b>Balance</b></td>
+                            <td style="text-align:right;border:0px;border-top:1px solid #ccc;width:55px"><b>@item.Balance.ToString("N3")</b></td>
+                            <td style="text-align:right;border:0px;border-top:1px solid #ccc;width:395px"><b>Total</b></td>
+                            <td style="text-align:right;border:0px;border-top:1px solid #ccc;width:70px"><b>@item.Total.ToString("N3")</b></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        }
+
+    <tr>
+        
+        <td style="text-align:right;border-right:0px"><b></b></td>
+        <td style="text-align:right;border-left:0px;border-right:0px"><b></b></td>
+        <td style="text-align:right;border-left:0px;border-right:0px"><b>Total</b></td>
+        <td style="border-left:0px"><b>@Model.InvoicesList.Sum(x => x.Amount).ToString("N3")</b></td>
+        <td style="text-align:right;width:50px;border-right:0px"><b></b></td>
+        <td style="text-align:right;width:55px;border-right:0px;border-left:0px"><b>@Model.InvoicesList.Sum(x=> x.Balance).ToString("N3")</b></td>
+        <td style="text-align:right;width:395px;border-right:0px;border-left:0px"><b></b></td>
+        <td style="text-align:right;width:70px;border-left:0px"><b>@Model.InvoicesList.Sum(x => x.Total).ToString("N3")</b></td>
+    </tr>
+
+    </table>
+</section>

@@ -1,0 +1,277 @@
+﻿@model SerExtraCore.Common.DashboardPageModel
+@*@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["PageId"] = "Dashboard";
+}
+
+@section Head {
+    @Html.StyleBundle("Pages/Dashboard")
+    @Html.ScriptBundle("Pages/Dashboard")
+}*@
+
+@*@section ContentHeader {
+        <h1>@LocalText.Get("Navigation.Dashboard")<small>@Html.Raw(Texts.Site.Dashboard.ContentDescription)</small></h1>
+    }*@
+
+<!--===============================================================================================-->
+<!--===============================================================================================-->
+<!--<link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">-->
+<!--===============================================================================================-->
+<!--<link rel="stylesheet" type="text/css" href="/vendor/animate/animate.css">-->
+<!--===============================================================================================-->
+<!--<link rel="stylesheet" type="text/css" href="/vendor/select2/select2.min.css">-->
+<!--===============================================================================================-->
+<!--<link rel="stylesheet" type="text/css" href="/vendor/perfect-scrollbar/perfect-scrollbar.css">-->
+<!--===============================================================================================-->
+<!--<link rel="stylesheet" type="text/css" href="/css/util.css">
+<link rel="stylesheet" type="text/css" href="/css/main.css">-->
+<!-- Small boxes (Stat box) -->
+
+<style>
+    #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+</style>
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>@Model.OpenOrders</h3>
+                <p>Open Consignments</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>@Model.ClosedOrderPercent<sup style="font-size: 20px"></sup></h3>
+                <p>Open Invoices</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>@Model.pdcPaymentDetails.Count</h3>
+                <p>Due PDC</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>@Model.ProductCount</h3>
+                <p>Total Collection Today</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div><!-- ./col -->
+</div><!-- /.row -->
+<!-- Main row -->
+<div class="row">
+    <!-- Left col -->
+    <div class="col-md-6">
+
+       @*  <div class="table100">
+            <h4 style="text-align:center">Free Vehicles</h4>
+
+            <table id="customers">
+                <thead>
+                    <tr class="table100-head">
+                        <th class="column1">VehicleNumber</th>
+                        <th class="column2">VehicleModel</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model.vehiclestatus.Where(i => i.BookingCount == 0))
+                    {
+                        <tr>
+                            <td class="column1">@i.VehicleNumber</td>
+                            <td class="column2">@i.VehicleModel</td>
+
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+
+        </div> *@
+
+
+    </div>
+    <div class="col-md-6">
+
+        @* <div class="table100">
+            <h4 style="text-align:center">Vehicles On Trip</h4>
+            <table style="min-height:200px" id="customers">
+                <thead>
+                    <tr class="table100-head">
+                        <th class="column1">VehicleNumber</th>
+                        <th class="column2">VehicleModel</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model.vehiclestatus.Where(i => i.BookingCount > 0))
+                    {
+                        <tr>
+                            <td class="column1">@i.VehicleNumber</td>
+                            <td class="column2">@i.VehicleModel</td>
+
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+
+        </div> *@
+
+
+    </div>
+    </div>
+<div class="row">
+   @*  <div class="col-md-6">
+
+        <h4 style="text-align:center">Post-dated Cheque</h4>
+        <table id="customers">
+            <thead>
+                <tr>
+                    <th class="column1">Due Date</th>
+                    <th class="column2">Cheque Number</th>
+                    <th class="column2">Amount</th>
+                    <th class="column2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.pdcPaymentDetails)
+                {
+                    <tr>
+                        <td class="column1">@((i.Date??DateTime.Today).ToShortDateString())</td>
+                        <td class="column2">@i.ChequeNo</td>
+                        <td class="column2" style="text-align:right">@i.Amount</td>
+                        <td>
+                            @if (i.InvoiceCollectionId > 0)
+                            {
+                                <button class="btn btn-primary" onclick="SerExtraCore.Dashboard.oncequeclick(@i.InvoiceCollectionId,1)">Open</button>
+                            }
+                            else
+                            {
+                                @if (i.SuppliersPaymentId > 0)
+                                {
+
+                                    <button class="btn btn-primary" onclick="SerExtraCore.Dashboard.oncequeclick(@i.SuppliersPaymentId,2)">Open</button>
+                                }
+                                else
+                                {
+
+                                    @if (i.PdcPaymentsId > 0)
+                                    {
+                                        <button class="btn btn-primary" onclick="SerExtraCore.Dashboard.oncequeclick(@i.PdcPaymentsId,3)">Open</button>
+
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div> *@
+    <div class="col-md-6">
+
+      @*   <h4 style="text-align:center">Due Documents</h4>
+        <table id="customers">
+            <thead>
+                <tr>
+                    <th class="column1">Doc No</th>
+                    <th class="column2">Document Type</th>
+                    <th class="column2">Name</th>
+                    <th class="column2">Issue Date</th>
+                    <th class="column2">Due Date</th>
+                    <th class="column2">Expiry Date</th>
+                    <th class="column2">Open</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.documents)
+                {
+                    <tr>
+                        <td class="column1">@i.TrxNo</td>
+                        <td class="column1">@i.DocumentTypeTypeName</td>
+                        <td class="column1">@i.Name</td>
+                        <td class="column1">@((i.IssueDate??DateTime.Today).ToShortDateString())</td>
+                        <td class="column1">@((i.DueDate??DateTime.Today).ToShortDateString())</td>
+                        <td class="column1">@((i.ExpiryDate??DateTime.Today).ToShortDateString())</td>
+                        <td class="column2"> <button class="btn btn-primary" onclick="SerExtraCore.Dashboard.opendocument(@i.Id)">Open</button></td>
+
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table> *@
+
+    </div>
+
+
+
+</div>
+<script>
+    function onchequeclixk(model)
+    {
+        alert(model.Id)
+    }
+</script>
+    <!-- /.row (main row) -->

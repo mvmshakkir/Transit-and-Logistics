@@ -1,0 +1,110 @@
+﻿@model SerExtraCore.Transactions.Pages.TrialBalanceReport.TrialBalanceViewtData
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<div id="headrow">
+    @Html.Raw((Authorization.UserDefinition as UserDefinition).ReportHeader)
+</div>
+<section class="invoice">
+    @*<div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header" style="text-align:center">
+                    Account Statement<br />
+                    From:@Model.aboutreport.FromDate.ToShortDateString() To:@Model.aboutreport.ToDate.ToShortDateString()
+                    <small class="pull-right">Date: @DateTime.Now.ToShortDateString()</small>
+                </h2>
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-sm-8">
+            <h2 class="page-header" style="text-align:center">Trial Balance</h2>
+        </div>
+        <div class="col-sm-12" style="text-align:center">As Date:@Model.aboutreport.AsDate.ToShortDateString()</div>
+    </div>
+    <!-- info row -->
+    <!-- /.row -->
+    <!-- Table row -->
+    <div class="container">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th width="200px" style="text-align:left"><strong style="font-size:12px;font-style:normal">Ledger</strong></th>
+                    <th width="200px" style="text-align:right"><strong style="font-size:12px;font-style:normal">Debit Amount</strong></th>
+                    <th width="200px" style="text-align:right"><strong style="font-size:12px;font-style:normal">Credit Amount</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model.Details)
+                {
+                    <tr>
+                        <td><strong style="font-size:10px;font-style:normal">@d.GL</strong></td>
+                        <td style="text-align:right">
+                            <strong style="font-size:10px;font-style:normal;text-align:center">
+                                @if (d.DebitAmount == 0) { }
+                                else
+                                {@d.DebitAmount;
+                            }
+                        </strong>
+                    </td>
+                    <td style="text-align:right">
+                        <strong style="font-size:10px;font-style:normal;text-align:center">
+                            @if (d.CreditAmount == 0) { }
+                            else
+                            {@d.CreditAmount;
+                            }
+                    </strong>
+                </td>
+            </tr>
+        }
+                <tr>
+                    <td><strong style="font-size:12px;font-style:normal;font-weight:bold">Total:</strong></td>
+                    <td style="text-align:right;font-style:normal;font-weight:bold"><strong style="font-size:12px;font-style:normal;text-align:center">@Model.aboutreport.TotalDebit</strong></td>
+                    <td style="text-align:right;font-style:normal;font-weight:bold"><strong style="font-size:12px;font-style:normal;text-align:center">@Model.aboutreport.TotalCredit</strong></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+    @*<div class="row">
+            <div class="col-xs-6">
+
+            </div>
+             /.col
+            <div class="col-xs-6">
+                <p class="lead">Amount Due @(Model.Order.OrderDate.Value.AddDays(10).ToShortDateString())</p>
+
+                @{
+                    var subTotal = Model.Details.Sum(x => x.LineTotal ?? 0);
+                }
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th style="width:50%">Subtotal:</th>
+                            <td>$@subTotal.ToString("#,##0.00")</td>
+                        </tr>
+                        <tr>
+                            <th>Tax (9.3%)</th>
+                            <td>$@((subTotal * 0.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                        <tr>
+                            <th>Shipping:</th>
+                            <td>$5.80</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <td>$@((subTotal * 1.093m).ToString("#,##0.00"))</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>*@
+</section>

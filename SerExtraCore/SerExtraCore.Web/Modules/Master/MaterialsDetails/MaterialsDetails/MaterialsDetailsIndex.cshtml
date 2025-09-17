@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = Serenity.LocalText.Get("Db.MaterialsDetails.MaterialsDetails.EntityPlural");
+}
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new SerExtraCore.MaterialsDetails.MaterialsDetailsGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>
+
+
+
+
+

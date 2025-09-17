@@ -1,0 +1,691 @@
+﻿@model SerExtraCore.Transactions.OrderDetailReportData
+
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+
+@*<br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+    <HTML>
+    <HEAD>
+        <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+        <TITLE></TITLE>
+        <META NAME="GENERATOR" CONTENT="LibreOffice 4.1.6.2 (Linux)">
+        <META NAME="AUTHOR" CONTENT="pc">
+        <META NAME="CREATED" CONTENT="20201015;44100000000000">
+        <META NAME="CHANGEDBY" CONTENT="pc">
+        <META NAME="CHANGED" CONTENT="20201015;55200000000000">
+        <META NAME="AppVersion" CONTENT="12.0000">
+        <META NAME="DocSecurity" CONTENT="0">
+        <META NAME="HyperlinksChanged" CONTENT="false">
+        <META NAME="LinksUpToDate" CONTENT="false">
+        <META NAME="ScaleCrop" CONTENT="false">
+        <META NAME="ShareDoc" CONTENT="false">
+        <STYLE TYPE="text/css">
+        <!--
+            @@page { margin: 0.5in }
+            P { margin-bottom: 0.08in; direction: ltr; widows: 2; orphans: 2 }
+        -->
+        </STYLE>
+    </HEAD>
+    <BODY LANG="en-US" DIR="LTR">
+        <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT SIZE=5><B>INVOICE</B></FONT></P>
+        <TABLE WIDTH=707 CELLPADDING=7 CELLSPACING=0>
+            <COL WIDTH=83>
+            <COL WIDTH=130>
+            <COL WIDTH=207>
+            <COL WIDTH=112>
+            <COL WIDTH=106>
+            <TR VALIGN=TOP>
+                <TD WIDTH=110 HEIGHT=6 STYLE="border-top: 1px solid #000001; border-bottom: 1px solid #00000a; border-left: 1px solid #000001; border-right: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <br />
+                    <P ALIGN=CENTER><FONT SIZE=2><B>Invoice Date:</B></FONT></P>
+                </TD>
+                <TD WIDTH=130 STYLE="border-top: 1px solid #000001; border-bottom: 1px solid #00000a; border-left: 1px solid #000001; border-right: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in;text-align:center;vertical-align:central">
+                    <P ALIGN=CENTER style="vertical-align:central;text-align:center">
+                        <br />
+                        @((Model.Invoice.InvoiceDate ?? DateTime.Today).ToShortDateString())
+
+                    </P>
+                </TD>
+                <TD WIDTH=207 STYLE="border-top: none; border-bottom: none; border-left: 1px solid #000001; border-right: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=112 STYLE="border-top: 1px solid #000001; border-bottom: 1px solid #00000a; border-left: 1px solid #000001; border-right: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN="left"><FONT SIZE=2><B>Invoice No:</B></FONT></P>
+                    <P ALIGN="left"><FONT SIZE=2><B>Client Job No:</B></FONT></P>
+                </TD>
+                <TD WIDTH=106 STYLE="border-top: 1px solid #000001; border-bottom: 1px solid #00000a; border-left: 1px solid #000001; border-right: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN=CENTER>
+                        @Model.Invoice.InvoiceNo
+                        @Model.Invoice.ClientJobNo
+                    </P>
+                </TD>
+            </TR>
+            <TR VALIGN=TOP>
+                <TD WIDTH=90 HEIGHT=6 STYLE="border-top: 1px solid #00000a; border-bottom: 1px solid #00000a; border-left: none; border-right: none; padding: 0in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=130 STYLE="border-top: 1px solid #00000a; border-bottom: 1px solid #00000a; border-left: none; border-right: none; padding: 0in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=207 STYLE="border: none; padding: 0in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=112 STYLE="border-top: 1px solid #00000a; border-bottom: none; border-left: none; border-right: none; padding: 0in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=106 STYLE="border-top: 1px solid #00000a; border-bottom: none; border-left: none; border-right: none; padding: 0in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+            </TR>
+            <TR VALIGN=TOP>
+                <TD COLSPAN=2 WIDTH=227 HEIGHT=82 STYLE="border-top: 1px solid #00000a; border-bottom: 1px solid #000001; border-left: 1px solid #000001; border-right: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN="left">
+                        @Model.Customer.CustomerName
+                        <br />
+                        @Model.Customer.Address
+                    </P>
+                </TD>
+                <TD WIDTH=207 STYLE="border-top: none; border-bottom: none; border-left: 1px solid #000001; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=112 STYLE="border: none; padding: 0in">
+                    <P ALIGN=CENTER>
+                        <BR>
+                    </P>
+                </TD>
+                <TD WIDTH=106 STYLE="border: none; padding: 0in">
+                    <P ALIGN=CENTER>
+
+                    </P>
+                </TD>
+            </TR>
+        </TABLE>
+        <P STYLE="margin-bottom: 0.14in">
+        </P>
+        <TABLE WIDTH=712 CELLPADDING=7 CELLSPACING=0>
+            <COL WIDTH=28>
+            <COL WIDTH=70>
+            <COL WIDTH=334>
+            <COL WIDTH=34>
+            <COL WIDTH=64>
+            <COL WIDTH=96>
+            <TR>
+                <TD WIDTH=28 HEIGHT=11 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN=CENTER><B>S/N</B></P>
+                </TD>
+                <TD WIDTH=90 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P><B>DATE</B></P>
+                </TD>
+                <TD WIDTH=334 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P><B>DESCRIPTION</B></P>
+                </TD>
+                <TD WIDTH=34 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN=CENTER><B>QTY</B></P>
+                </TD>
+                <TD WIDTH=64 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN=RIGHT><B>RATE</B></P>
+                </TD>
+                <TD WIDTH=96 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN=RIGHT><B>TOTAL R/O</B></P>
+                </TD>
+            </TR>
+            @{int counter = 1; }
+            @foreach (var i in Model.Details)
+            {
+                <TR VALIGN=TOP>
+                    <TD WIDTH=28 HEIGHT=15 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                        <P ALIGN=CENTER>
+                            @counter
+                        </P>
+                    </TD>
+                    <TD WIDTH=70 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                        <P>
+                            @((i.Date ?? Model.Invoice.ConsignmentConsignmentDate ?? DateTime.Today).ToShortDateString())
+                        </P>
+                    </TD>
+                    <TD WIDTH=334 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+
+                        @{ int count = 0; }
+                        <p>
+                            @if (i.Description != null)
+                            {
+                            @foreach (var s in i.Description.Split("("))
+                            {
+
+
+                                @if (count > 0)
+                                {
+                                    <p>
+                                        (@s
+                                    </p>
+                                }
+                                else
+                                {
+                                    @s
+                                }
+
+
+
+                                count = count + 1;
+                            }
+                            }
+                            @if (i.ExchangeRate != null)
+                            {
+                            @if (i.ExchangeRate != 1)
+                            {
+                                <t>(@i.CurrencyCurrencyCode : @i.Amount x @i.ExchangeRate)</t>
+                                }
+                            }
+                        </p>
+                        </TD>
+                    <TD WIDTH=34 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                        <P ALIGN="center">
+                            @i.Qty
+                        </P>
+                    </TD>
+                    <TD WIDTH=64 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                        <P ALIGN=RIGHT>
+                            @i.Amount
+                        </P>
+                    </TD>
+                    <TD WIDTH=96 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                        <P ALIGN=RIGHT>
+                            @i.TotalAmountInLocalCurrency
+                        </P>
+                    </TD>
+                </TR>
+                counter = counter + 1;
+
+            }
+            @for (int i = counter; i <= 12; i++)
+            {
+        <TR VALIGN=TOP style="height:15px;border:none;">
+            <TD WIDTH=28 HEIGHT=15 style="        border: none;
+            border-left: 1px solid #000001;
+            padding-top: 0in;
+            padding-bottom: 0in;
+            padding-left: 0.08in;
+            padding-right: 0.08in">
+                <P ALIGN=CENTER style="min-height: 20px;">
+
+                </P>
+            </TD>
+            <TD WIDTH=70 STYLE="border: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <P>
+
+                </P>
+            </TD>
+            <TD WIDTH=334 STYLE="border: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <P>
+
+                </P>
+            </TD>
+            <TD WIDTH=34 STYLE="border: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <P ALIGN="center">
+
+                </P>
+            </TD>
+            <TD WIDTH=64 STYLE="border: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                <P ALIGN=RIGHT>
+
+                </P>
+            </TD>
+            <TD WIDTH=96 STYLE="border: none;
+            border-right: 1px solid #000001;
+            padding-top: 0in;
+            padding-bottom: 0in;
+            padding-left: 0.08in;
+            padding-right: 0.08in
+        ">
+                <P ALIGN=RIGHT>
+
+                </P>
+            </TD>
+        </TR>
+            }
+
+
+            <TR VALIGN=TOP>
+                <TD COLSPAN=5 WIDTH=586 HEIGHT=14 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P><B>Total OMR :@Model.amountinwords</B></P>
+                </TD>
+                <TD WIDTH=96 STYLE="border: 1px solid #000001; padding-top: 0in; padding-bottom: 0in; padding-left: 0.08in; padding-right: 0.08in">
+                    <P ALIGN=RIGHT>
+                        @Model.Invoice.TotalAmount
+                    </P>
+                </TD>
+            </TR>
+        </TABLE>
+        <P STYLE="margin-bottom: 0.14in">
+            <BR><BR>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <FONT SIZE=2>
+                <U>
+                    <B>
+                        Bank
+                        Account Details
+                    </B>
+                </U>
+            </FONT>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <FONT SIZE=2>
+                Account
+                name :
+            </FONT><FONT SIZE=2><B>SAMA SUR AL ABRI TRADEING CO</B></FONT>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <FONT SIZE=2>
+                Account
+                No :
+            </FONT><FONT SIZE=2><B>1009 284797 001,NATIONAL BANK OF OMAN</B></FONT>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <FONT SIZE=2>
+                Branch
+                Name :
+            </FONT><FONT SIZE=2><B>SOHAR HAMBAR</B></FONT>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <FONT SIZE=2>
+                Swift
+                Code :
+            </FONT><FONT SIZE=2><B>NBOMOMRX</B></FONT>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <BR>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <FONT SIZE=2>
+                <B>
+                    For
+                    Sama Sur Al Abri Trade.
+                </B>
+            </FONT>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <BR>
+        </P>
+        <P STYLE="margin-bottom: 0in; line-height: 100%">
+            <BR>
+        </P>
+    </BODY>
+    </HTML>*@
+<style>
+    .heddiv {
+    }
+
+    .row {
+        display: flex; /* equal height of the children */
+    }
+
+    .col-container {
+        display: table;
+        width: 100%;
+    }
+
+    .col {
+        display: table-cell;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        border-radius: 20px;
+        padding: 10px;
+    }
+
+    tr, td, th {
+        text-align: center;
+    }
+
+    table {
+        border-spacing: 0;
+        width: 100%;
+        display: table;
+        border: none
+    }
+
+    .thstyle {
+        border-right-style: solid;
+        border-right-color: lightgray;
+        border-right-width: 1px
+    }
+
+    div.c {
+        text-align: right;
+    }
+
+    div.b {
+        text-align: left;
+    }
+    .ck {
+        color: red !important;
+    }
+</style>
+<br />
+<br />
+<table>
+    <tr>
+        <td style="width:50px;text-align:left">
+            <img src="~/images/golden_logo.png" />
+        </td>
+        <td style="width:70%;text-align:right">
+            <text style="font-weight:bold;font-size:23px;color:	black !important;">
+                شركة بوابة العالم الذهبية  ش.م.م
+                <br />
+
+                GOLDEN GATE GLOBAL LLC
+            </text>
+            <br />
+            C.R.No.1056928,P.O.Box: 1826,P.C. 114,MUTRAH,SULTANATE OF OMAN
+            <br />
+            Tel: 24593795 /Fax: 24593785
+            <br />
+            Mob: 94294277 , 94440370
+            <br />
+            <x style="font-weight:bold">
+                VATIN: @Model.configuration.TaxRegNo
+            </x>
+        </td>
+    </tr>
+</table>
+<body>
+    <hr style="border: 1px solid black" />
+    <P ALIGN=CENTER STYLE="margin-bottom: 0.14in"><FONT SIZE=4><B>TAX INVOICE</B></FONT></P>
+
+</body>
+
+
+<div class="col-container">
+    <div class="col" style="width:66%">
+        <b> @Model.Customer.CustomerName</b>
+        <br />
+        <div style="max-width:300px">
+            @Model.Customer.Address
+        </div>
+        Tel : @Model.Customer.Mobile
+        <br />
+        Attn :
+        <br />
+        VATIN :  @Model.Customer.TaxRegNo
+    </div>
+    <div class="col" style="width:2px;border-style: none;">
+
+    </div>
+    <div class="col" style="width:32%">
+        <table style="width:100%">
+            <tr>
+                <td style="text-align:left"> Invoice No </td>
+                <td style="text-align:left">: @Model.Invoice.InvoiceNo</td>
+            </tr>
+            <tr>
+                <td style="text-align:left"> Invoice Date </td>
+                <td style="text-align:left">: @((Model.Invoice.InvoiceDate ?? DateTime.Today).ToShortDateString())</td>
+            </tr>
+            <tr>
+                <td style="text-align:left">  Job No/LPO </td>
+                <td style="text-align:left">: @Model.Invoice.ClientJobNo</td>
+            </tr>
+            <tr>
+                <td style="text-align:left"> Payment Date </td>
+                <td style="text-align:left">
+                    :
+                    @if (Model.Customer.DueDays != null)
+                    {
+                        <x>@((Model.Invoice.InvoiceDate??DateTime.Today).AddDays(Model.Customer.DueDays??0).ToShortDateString())</x>
+                    }
+                </td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left"> Payment Terms </td>
+                <td style="text-align:left">
+                    :
+                    @if (Model.Customer.DueDays != null)
+                    {
+                        <m> @(Model.Customer.DueDays ?? 0) Days</m>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br />
+<div style="border-style: solid; border-color: black; border-width: 1px; border-radius: 20px; width:100%">
+    <table>
+        <tr style="border-bottom-style: solid;border-bottom-color:lightgray;border-bottom-width:1px;height:25px">
+            <th class="thstyle" style="width:50px">SlNo</th>
+            <th class="thstyle" style="width:80px">Date</th>
+            <th class="thstyle" style="width:250px">Particular</th>
+            <th class="thstyle" style="width:80px">Qty</th>
+            <th class="thstyle" style="width:80px">Rate</th>
+            @*<th class="thstyle" style="width:80px">Discount</th>*@
+            <th class="thstyle" style="width:80px">Total excl. VAT</th>
+            <th class="thstyle" style="width:80px">VAT%</th>
+            <th class="thstyle" style="width:80px">VAT Amt</th>
+            <th class="thstyle" style="width:80px;border-right-style: none;">Total incl. VAT(OMR)</th>
+        </tr>
+        @{int counter = 1; }
+        @{int slno = 1; }
+        @foreach (var i in Model.Details)
+        {
+            <tr style="height:auto">
+                <td class="thstyle" style="width:50px;vertical-align:top"> @slno</td>
+                <td class="thstyle" style="width:80px;vertical-align:top">@((i.Date ?? DateTime.Today).ToString("dd/MM/yyyy"))</td>
+                <td class="thstyle" style="width:250px;text-align:left;vertical-align:top;padding:2px">
+                    @{ int count = 0; }
+
+                    @if (i.Description != null)
+                    {
+                        @*@foreach (var s in i.Description.Split("("))
+                        {
+
+
+                            @if (count > 0)
+                            {
+                                <p>
+                                    (@s
+                                </p>
+                            }
+                            else
+                            {
+                                @s
+                            }
+
+
+
+                            count = count + 1;
+                        }*@
+                        @i.Description
+                    }
+                    @if (i.ExchangeRate != null)
+                    {
+                        @if (i.ExchangeRate != 1)
+                        {
+                            <t>(@i.CurrencyCurrencyCode : @i.Amount x @i.ExchangeRate)</t>
+                        }
+                    }
+                    @if (i.InvoiceVehicleNumber != null)
+                    {
+                        @if (i.InvoiceVehicleNumber != "")
+                        {
+                            foreach (var item in i.InvoiceVehicleNumber.Split(",").ToList())
+                            {
+                                if (item != "")
+                                {
+                                    <br />
+                                    <t>VEH NO:@item</t>
+                                    counter = counter + 1;
+                                }
+                            }
+                        }
+                    }
+                </td>
+                <td class="thstyle" style="width:80px;vertical-align:top"> @i.Qty</td>
+                <td class="thstyle" style="width:80px;text-align:right;vertical-align:top;padding-right:3px"> @i.Amount</td>
+                @*<td class="thstyle" style="width:80px;text-align:right;vertical-align:top;padding-right:3px"> @i.DisAmount</td>*@
+                <td class="thstyle" style="width:80px;text-align:right;vertical-align:top;padding-right:3px"> @i.TaxableAmount</td>
+                <td class="thstyle" style="width:80px;text-align:right;vertical-align:top;padding-right:3px">
+                    @*@if (i.TaxPer > 0)
+        {
+            <x>@i.TaxPer</x>
+        }*@
+                    @((i.TaxPer??0).ToString("N2"))
+                </td>
+                <td class="thstyle" style="width:80px;text-align:right;vertical-align:top;padding-right:3px">
+                    
+                    @((i.TaxAmount??0).ToString("N3"))
+
+                </td>
+
+                <td class="thstyle" style="width:80px;border-right-style: none;text-align:right;vertical-align:top;padding-right:3px"> @i.TotalAmountInLocalCurrency</td>
+            </tr>
+                            counter = counter + 3;
+                            slno = slno + 1;
+                        }
+        @for (int i = counter; i <= 12; i++)
+        {
+            <tr style="height:20px">
+                <td class="thstyle" style="width:50px"></td>
+                <td class="thstyle" style="width:80px"></td>
+                <td class="thstyle" style="width:250px;text-align:left;padding:2px">
+                </td>
+                <td class="thstyle" style="width:80px"> </td>
+                <td class="thstyle" style="width:80px;text-align:right;padding-right:3px"> </td>
+                @*<td class="thstyle" style="width:80px"> </td>*@
+                <td class="thstyle" style="width:80px"> </td>
+                <td class="thstyle" style="width:80px"> </td>
+                <td class="thstyle" style="width:80px"> </td>
+                <td class="thstyle" style="width:80px;border-right-style: none;text-align:right;padding-right:3px"> </td>
+            </tr>
+        }
+        <tr style="height:30px">
+            <td class="thstyle" style="width:50px"></td>
+            <td class="thstyle" style="width:80px"></td>
+            <td class="thstyle" style="width:250px;text-align:right;font-weight:bold;padding:2px">
+                Total
+            </td>
+            <td class="thstyle" style="width:80px"> </td>
+            <td class="thstyle" style="width:80px;text-align:right;padding-right:3px"> </td>
+            @*<td class="thstyle" style="width:80px;text-align:right;padding-right:3px;font-weight:bold">@Model.Details.Sum(i => i.DisAmount) </td>*@
+            <td class="thstyle" style="width:80px;text-align:right;padding-right:3px;font-weight:bold">@Model.Details.Sum(i => i.TaxableAmount) </td>
+            <td class="thstyle" style="width:80px"> </td>
+            <td class="thstyle" style="width:80px;text-align:right;padding-right:3px;font-weight:bold">@Model.Details.Sum(i => i.TaxAmount) </td>
+            <td class="thstyle" style="width:80px;text-align:right;padding-right:3px;font-weight:bold"> @Model.Details.Sum(i => i.TotalAmountInLocalCurrency)</td>
+        </tr>
+    </table>
+</div>
+<div style="border-style: solid; border-color: black; border-width: 1px; border-radius: 20px; width:100%;font-weight:bold">
+    
+    <table>
+        <tr>
+            <td rowspan="3" style="text-align:left;padding-left:5px">Total OMR :@Model.amountinwords</td>
+            <td style="text-align:right;width:130px">Total :</td>
+            <td style="text-align:right;padding-right:5px;width:110px">@Model.Invoice.TotalAmount</td>
+        </tr>
+        <tr>
+            
+            <td style="text-align:right">Advance :</td>
+            <td style="text-align:right;padding-right:5px">@Model.Invoice.AdvanceAmount</td>
+        </tr>
+        <tr>
+            
+            <td style="text-align:right">Total Invoice Amt :</td>
+            <td style="text-align:right;padding-right:5px">@Model.Invoice.BalanceAmount</td>
+        </tr>
+    </table>
+    @*<div class="col" style="width:60%;border-style: none;text-align:left;padding-left:6px">
+            Total OMR :@Model.amountinwords
+        </div>
+
+        <div class="col" style="width:40%;border-style: none;text-align:right">
+            <x>Total :</x>@Model.Invoice.TotalAmount<br />
+            <x>Advance :</x>@Model.Invoice.AdvanceAmount<br />
+            <x>Total Invoice Amt :</x>@Model.Invoice.BalanceAmount
+        </div>*@
+</div>
+<br />
+<div style="padding-top:5px;font-weight:bold">
+    <div style="border-style: solid; border-color: black; border-width: 1px; border-radius: 10px; width:100%;font-size:10px;padding-top:8px">
+        <p style="text-align:left;padding-left:5px;font-weight:bold">
+
+            Declaration : We declare that this invoice shows the actual prices as per the PO and that all particulars are true and correct
+
+
+
+        </p>
+        
+    </div>
+  
+    <div style="border-style: solid; border-color: black; border-width: 1px; border-radius: 20px; width:100%;font-size:10px">
+        <br />
+        <text style="margin-left:25px;font-weight:bold">
+            PAYMENT TERMS:
+        </text>
+        <table style="width:670px;border-bottom:none;border-top:double;margin-top:0px;padding-top:0px;margin-left:25px;">
+            <tr>
+                <td style="width:50%;text-align:left;border-right:double">
+                    <u>BANK DETAILS</u>
+                    <br />
+                    A/C # @Model.configuration.AccountNumber
+                    <br />
+                    Bank Name:@Model.configuration.BankName
+                    <br />
+                    @Model.configuration.AccountName
+                   
+                    <br />
+                    SWIFT CODE : :@Model.configuration.SwiftCode
+
+                </td>
+                <td style="width:40%;text-align:left;padding:5px">
+                    FOR & ON BEHALF OF
+                    <br />
+                    GOLDEN GATE GLOBAL LLC
+                    <br />
+                    <br />
+                    <br />
+
+                    MANAGER
+                </td>
+            </tr>
+        </table>
+        <br />
+    </div>
+    
+    <div style="border-style: solid; border-color: black; border-width: 1px; border-radius: 10px; width:100%;font-size:10px;padding-top:8px">
+        <p style="text-align:left;padding-left:5px;font-weight:bold">
+
+            ELECTRONIC INVOICE for your payment proceeding.
+
+
+
+        </p>
+        <p style="text-align:left;padding-left:5px;">
+            This will be considered as OFFICIAL INVOICE & doesn't required stamp/signature
+            <br />
+            HARD COPY WITH STAMP & SIGNATURE WILL BE PROVIDED ON SPECIFIC REQUEST
+        </p>
+    </div>
+</div>

@@ -1,0 +1,250 @@
+﻿@model SerExtraCore.Transactions.DeliveryPrintModel
+
+@if ((bool?)ViewData["Printing"] == true)
+{
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+
+
+<style>
+    .heddiv {
+    }
+
+    .row {
+        display: flex; /* equal height of the children */
+    }
+
+    .col-container {
+        display: table;
+        width: 100%;
+    }
+
+
+    .col {
+        overflow: hidden;
+        display: table-cell;
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        border-radius: 20px !important;
+        padding: 10px;
+    }
+
+    tr, td, th {
+        text-align: center;
+    }
+
+    table {
+        border-spacing: 0;
+        width: 100%;
+        display: table;
+        border-bottom: solid;
+        border-bottom-color: black;
+        border-bottom-width: 1px;
+    }
+
+    .thstyle {
+        border-right-style: solid;
+        border-right-color: lightgray;
+        border-right-width: 1px
+    }
+
+    div.c {
+        text-align: right;
+    }
+
+    div.b {
+        text-align: left;
+    }
+
+    p.test {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+
+    x.test {
+        word-wrap: break-word;
+        white-space: pre-line;
+    }
+    
+   
+</style>
+<label id="sample"></label>
+<body>
+    <h3 style="text-align:center">
+        Demo Delivery Company
+
+    </h3>
+    <h5 style="text-align:center">
+        Cecilia Chapman<br>
+        711-2880 Nulla St.<br>
+        Mankato Mississippi 96522<br>
+        (257) 563-7401
+    </h5>
+  <div>
+      <table id="myTable">
+          <tr>
+              <td style="text-align:left;width:100px">
+                  Condignee :
+              </td>
+
+              <td style="text-align:left">
+                  @Model.Delivery.ConsigneeCustomerName
+              </td>
+
+              <td style="width:300px">
+              </td>
+              <td style="text-align:left;width:100px">
+                  Consignor :
+              </td>
+              <td style="text-align:left">
+                  @Model.Delivery.ConsignorCustomerName
+              </td>
+          </tr>
+          <tr>
+              <td style="text-align:left">
+                  To :
+              </td>
+
+              <td style="text-align:left">
+                  @Model.Delivery.ShippingAreaToAreaName
+              </td>
+
+              <td>
+              </td>
+              <td style="text-align:left">
+                  From :
+              </td>
+              <td style="text-align:left">
+                  @Model.Delivery.ShippingAreaFromAreaName
+              </td>
+          </tr>
+          <tr>
+              <td style="text-align:left">
+                  Tel.No :
+              </td>
+
+              <td style="text-align:left">
+                  @Model.Delivery.ConsigneeTelephone
+              </td>
+
+              <td>
+              </td>
+              <td style="text-align:left">
+                  Tel.No :
+              </td>
+              <td style="text-align:left">
+                  @Model.Delivery.ConsignorTelephone
+              </td>
+          </tr>
+          <tr>
+              <td style="text-align:left">
+                  Receiver Details:
+              </td>
+
+              <td style="text-align:left">
+                  @Model.Delivery.ReceiverDetails
+              </td>
+
+              <td>
+              </td>
+              <td style="text-align:left">
+                  Hand Date :
+              </td>
+              <td style="text-align:left">
+                  @((Model.Delivery.HandDate??DateTime.Now).ToShortDateString())
+              </td>
+          </tr>
+          <tr>
+              <td style="text-align:left">
+                  Contact No:
+              </td>
+
+              <td style="text-align:left">
+                  @Model.Delivery.ContactNo
+              </td>
+
+              <td>
+              </td>
+              <td style="text-align:left">
+                  Recv Date :
+              </td>
+              <td style="text-align:left">
+                  @((Model.Delivery.ReceivedDate??DateTime.Now).ToShortDateString())
+              </td>
+          </tr>
+      </table>
+      <table>
+          <tr>
+              <th style="text-align:left">
+                  Parcel Type
+              </th>
+              <th style="text-align:right">
+                  Quantity
+              </th>
+              <th style="text-align:right">
+                  Unit Price
+              </th>
+              <th style="text-align:right">
+                  Total sAmount
+              </th>
+          </tr>
+          @foreach (var item in Model.Details)
+          {
+              <tr>
+                  <td style="text-align:left;width:300px">
+                     @item.ParcelType
+                  </td>
+                  <td style="text-align:right;width:100px">
+                      @((item.Quantity??0).ToString("N0"))
+                  </td>
+                  <td style="text-align:right">
+                      @item.UnitPrice
+                  </td>
+                  <td style="text-align:right">
+                      @item.TotalAmount
+                  </td>
+              </tr>
+          }
+      </table>
+      <div>
+          <table>
+              <tr>
+                  <td style="        text-align: left;
+        width: 300px
+">
+                     
+                  </td>
+                  <td style="        text-align: right;
+        width: 100px
+">
+                      @((Model.Details.Sum(i=>i.Quantity)??0).ToString("N0"))
+                  </td>
+                  <td style="text-align:right">
+                      
+                  </td>
+                  <td style="text-align:right">
+                      @Model.Delivery.TotalAmount
+                  </td>
+              </tr>
+          </table>
+      </div>
+      <div>
+          <h5>Amount : @Model.amountinwords</h5>
+          <h5>Note</h5>
+          <div style="margin:2px">
+              @Model.Delivery.Note
+          </div>
+      </div>
+      <table>
+          <tr>
+              <td width="50%" style="text-align:left">
+                  Consignee Sign ...................................
+              </td>
+              <td width="50%" style="text-align:left">
+                  Consignor Sign ....................................
+              </td>
+          </tr>
+      </table>
+  </div>
+</body>

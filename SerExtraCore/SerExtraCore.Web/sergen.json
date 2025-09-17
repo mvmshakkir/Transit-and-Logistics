@@ -1,0 +1,139 @@
+{
+  "RootNamespace": "SerExtraCore",
+  "ServerTypings": {
+    "LocalTexts": true
+  },
+  "Connections": [
+    {
+      "Key": "Default",
+      "Tables": [
+        {
+          "Tablename": "dbo.CommisionDetails",
+          "Identifier": "CommisionDetails",
+          "Module": "CommisionDetails",
+          "PermissionKey": "Master:CommisionDetails"
+        },
+        {
+          "Tablename": "dbo.CommissionPercentage",
+          "Identifier": "CommissionPercentage",
+          "Module": "CommissionPercentage",
+          "PermissionKey": "Master:CommissionPercentage"
+        },
+        {
+          "Tablename": "dbo.Companies",
+          "Identifier": "Companies",
+          "Module": "Companies",
+          "PermissionKey": "Master:Companies"
+        },
+        {
+          "Tablename": "dbo.Crossing",
+          "Identifier": "Crossing",
+          "Module": "Crossing",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.DeliveryServiceDetails",
+          "Identifier": "DeliveryServiceDetails",
+          "Module": "Transactions",
+          "PermissionKey": "Transactions:DeliveryServices"
+        },
+        {
+          "Tablename": "dbo.DeliveryServices",
+          "Identifier": "DeliveryServices",
+          "Module": "Transactions",
+          "PermissionKey": "Transactions:DeliveryServices"
+        },
+        {
+          "Tablename": "dbo.Expenses",
+          "Identifier": "Expenses",
+          "Module": "Expenses",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ExtraExpense",
+          "Identifier": "Extr",
+          "Module": "Extr",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.FuelDetails",
+          "Identifier": "FuelDetails",
+          "Module": "FuelDetails",
+          "PermissionKey": "Master:FuelDetails"
+        },
+        {
+          "Tablename": "dbo.MaterialsDetails",
+          "Identifier": "MaterialsDetails",
+          "Module": "MaterialsDetails",
+          "PermissionKey": "Master:MaterialsDetails"
+        },
+        {
+          "Tablename": "dbo.Projects",
+          "Identifier": "Projects",
+          "Module": "Master",
+          "PermissionKey": "Master:Projects"
+        },
+        {
+          "Tablename": "dbo.PumpDetails",
+          "Identifier": "PumpDetails",
+          "Module": "PumpDetails",
+          "PermissionKey": "Master:PumpDetails"
+        },
+        {
+          "Tablename": "dbo.ServiceAmount",
+          "Identifier": "ServiceAmount",
+          "Module": "ServiceAmount",
+          "PermissionKey": "Master:ServiceAmount"
+        },
+        {
+          "Tablename": "dbo.Services",
+          "Identifier": "Services",
+          "Module": "Services",
+          "PermissionKey": "Master:Services"
+        },
+        {
+          "Tablename": "dbo.SettlementDetails",
+          "Identifier": "SettlementDetails",
+          "Module": "SettlementDetails",
+          "PermissionKey": "Master:SettlementDetails"
+        },
+        {
+          "Tablename": "dbo.States",
+          "Identifier": "States",
+          "Module": "States",
+          "PermissionKey": "Master:States"
+        },
+        {
+          "Tablename": "dbo.Tenants",
+          "Identifier": "Tenants",
+          "Module": "Administration",
+          "PermissionKey": "Administration:Tenants"
+        },
+        {
+          "Tablename": "dbo.UOM",
+          "Identifier": "UOM",
+          "Module": "UOM",
+          "PermissionKey": "Master:UOM"
+        },
+        {
+          "Tablename": "dbo.UOMAmount",
+          "Identifier": "UOMAmount",
+          "Module": "UOMAmount",
+          "PermissionKey": "Master:UOMAmount"
+        },
+        {
+          "Tablename": "dbo.VehicleFreight",
+          "Identifier": "VehicleFreight",
+          "Module": "VehicleFreight",
+          "PermissionKey": "Master:VehicleFreight"
+        },
+        {
+          "Tablename": "dbo.VehicleMovDetails",
+          "Identifier": "VehicleMovDetails",
+          "Module": "VehicleMovDetails",
+          "PermissionKey": "Master:VehicleMovDetails"
+        }
+      ]
+    }
+  ]
+}
